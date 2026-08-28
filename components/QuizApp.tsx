@@ -428,9 +428,6 @@ function Result({
 
       <article className="mt-8 rounded-3xl border border-[var(--line)] bg-[var(--paper)] p-5">
         <h3 className="font-display text-2xl">Seu mapa cerebral</h3>
-        <p className="mt-1 text-sm text-[var(--muted)]">
-          {result.total} escolhas · o teste só fecha com 40, como no Excel original.
-        </p>
         <div className="mt-6 space-y-4">
           {result.ranked.map((row) => {
             const meta = QUADRANT_META[row.key];
