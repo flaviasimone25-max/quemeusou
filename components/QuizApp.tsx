@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { QUESTIONS } from "@/lib/questions";
 import { PROFILES, QUADRANT_META } from "@/lib/profiles";
 import { computeScores, interpret } from "@/lib/score";
+import { OFFER_HOST, OFFER_NAME, OFFER_PRICE, OFFER_URL } from "@/lib/offer";
 import type { Quadrant, Question } from "@/lib/types";
 
 type Stage = "intro" | "quiz" | "reveal" | "result";
@@ -146,6 +147,7 @@ function Intro({
       <p className="rise mt-6 max-w-xl text-lg leading-relaxed text-[var(--muted)]" style={{ animationDelay: "140ms" }}>
         Não é certo ou errado. É o mapa de como o seu cérebro prefere pensar, decidir e se relacionar.
         No final, você encontra o animal do seu perfil, com características, pontos fortes e o que vale treinar.
+        A leitura completa de carreira e sentimento acontece na consultoria de 1 hora.
       </p>
       <div className="rise mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4" style={{ animationDelay: "200ms" }}>
         {(["SE", "IE", "SD", "ID"] as Quadrant[]).map((key) => (
@@ -458,6 +460,59 @@ function Result({
         </div>
       </article>
 
+      <article className="mt-4 rounded-3xl border border-[var(--line)] bg-[var(--paper)] p-5">
+        <h3 className="font-display text-2xl">Onde você brilha no trabalho</h3>
+        <p className="mt-2 text-sm text-[var(--muted)]">Ramos em que o perfil {profile.title} costuma performar.</p>
+        <div className="mt-4 flex flex-wrap gap-2">
+          {profile.careers.map((item) => (
+            <span key={item} className="rounded-full border border-white/10 px-3 py-1.5 text-sm">
+              {item}
+            </span>
+          ))}
+        </div>
+        <LockedBlock>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {profile.careersHidden.map((item) => (
+              <span key={item} className="rounded-full border border-white/10 px-3 py-1.5 text-sm">
+                {item}
+              </span>
+            ))}
+          </div>
+          <p className="mt-4 text-sm leading-relaxed">
+            A combinação do seu mapa com o cargo certo, o tipo de chefia que te drena e o modelo de trabalho em que você rende 2x.
+          </p>
+        </LockedBlock>
+      </article>
+
+      <article className="mt-4 rounded-3xl border border-[var(--line)] bg-[var(--paper)] p-5">
+        <h3 className="font-display text-2xl">No sentimento e na conquista</h3>
+        <p className="mt-4 text-sm leading-relaxed text-[var(--muted)]">{profile.feeling}</p>
+        <LockedBlock>
+          <ul className="mt-4 space-y-3 text-sm leading-relaxed">
+            {profile.feelingHidden.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </LockedBlock>
+      </article>
+
+      <div className="mt-4 grid gap-4 sm:grid-cols-2">
+        {profile.locked.map((block) => (
+          <article key={block.title} className="rounded-3xl border border-[var(--line)] bg-[var(--paper)] p-5">
+            <h3 className="font-display text-2xl">{block.title}</h3>
+            <LockedBlock>
+              <ul className="mt-4 space-y-3 text-sm leading-relaxed">
+                {block.lines.map((line) => (
+                  <li key={line}>{line}</li>
+                ))}
+              </ul>
+            </LockedBlock>
+          </article>
+        ))}
+      </div>
+
+      <OfferCard name={name} title={profile.title} />
+
       <div className="mt-8 flex flex-wrap gap-3">
         <button
           onClick={share}
@@ -473,5 +528,56 @@ function Result({
         </button>
       </div>
     </main>
+  );
+}
+
+function LockedBlock({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="relative mt-4 overflow-hidden rounded-2xl border border-white/10">
+      <div className="locked-blur p-4 text-[var(--muted)]">{children}</div>
+      <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#070b14]/55 px-4 text-center backdrop-blur-[1px]">
+        <p className="font-display text-2xl">Saiba mais</p>
+        <p className="mt-1 max-w-sm text-sm text-[var(--muted)]">
+          {OFFER_NAME} · 1 hora on-line com {OFFER_HOST}
+        </p>
+        <a
+          href={OFFER_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-4 rounded-full bg-[var(--gold)] px-6 py-2.5 text-sm font-semibold text-[#1a1408]"
+        >
+          Desbloquear por {OFFER_PRICE}
+        </a>
+      </div>
+    </div>
+  );
+}
+
+function OfferCard({ name, title }: { name: string; title: string }) {
+  return (
+    <section className="mt-8 overflow-hidden rounded-[2rem] border border-[var(--gold)]/40 bg-[var(--paper)] p-6 sm:p-8">
+      <p className="text-xs uppercase tracking-[0.28em] text-[var(--gold)]">Próximo passo</p>
+      <h3 className="font-display mt-2 text-3xl leading-tight sm:text-4xl">{OFFER_NAME}</h3>
+      <p className="mt-4 max-w-2xl text-sm leading-relaxed text-[var(--muted)]">
+        {name}, este mapa é o começo. Em 1 hora on-line, {OFFER_HOST} lê o seu perfil {title},
+        cruza carreira e sentimento, e traduz o que ficou desfocado: onde você performa, com quem a relação flui e o que precisa de ajuste para conquistar sem se perder.
+      </p>
+      <ul className="mt-5 space-y-2 text-sm text-[var(--text)]/90">
+        <li>Consultoria individual de 1 hora, on-line</li>
+        <li>Especialista em comportamento: {OFFER_HOST}</li>
+        <li>Leitura do seu mapa, carreira, sentimento e código de comunicação</li>
+      </ul>
+      <div className="mt-6 flex flex-wrap items-center gap-4">
+        <a
+          href={OFFER_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="rounded-full bg-[var(--gold)] px-7 py-3.5 text-sm font-semibold text-[#1a1408]"
+        >
+          Saiba mais · {OFFER_PRICE}
+        </a>
+        <p className="text-xs text-white/40">Pagamento seguro via Kiwify</p>
+      </div>
+    </section>
   );
 }

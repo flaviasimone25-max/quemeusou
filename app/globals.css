@@ -90,3 +90,10 @@ input {
 .glow {
   animation: glow 2.4s ease-in-out infinite;
 }
+
+.locked-blur {
+  filter: blur(7px);
+  user-select: none;
+  pointer-events: none;
+}
+
