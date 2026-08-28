@@ -15,7 +15,7 @@ const fraunces = Fraunces({
 export const metadata: Metadata = {
   title: "Quem eu sou? | Perfil comportamental",
   description:
-    "Descubra o animal do seu jeito de pensar. Teste de dominância cerebral de Ned Herrmann — Tubarão, Lobo, Águia ou Gato.",
+    "Descubra o animal do seu jeito de pensar. Teste de dominância cerebral de Ned Herrmann: Tubarão, Lobo, Águia ou Gato.",
   openGraph: {
     title: "Quem eu sou?",
     description: "Um mapa do seu jeito de pensar, decidir e se relacionar.",

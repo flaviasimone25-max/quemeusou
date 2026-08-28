@@ -145,14 +145,19 @@ function Intro({
       </h1>
       <p className="rise mt-6 max-w-xl text-lg leading-relaxed text-[var(--muted)]" style={{ animationDelay: "140ms" }}>
         Não é certo ou errado. É o mapa de como o seu cérebro prefere pensar, decidir e se relacionar.
-        No final, você encontra o animal do seu perfil — com características, pontos fortes e o que vale treinar.
+        No final, você encontra o animal do seu perfil, com características, pontos fortes e o que vale treinar.
       </p>
       <div className="rise mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4" style={{ animationDelay: "200ms" }}>
         {(["SE", "IE", "SD", "ID"] as Quadrant[]).map((key) => (
-          <div key={key} className="rounded-2xl border border-[var(--line)] bg-[var(--paper)] p-3 backdrop-blur">
-            <div className="mb-2 h-1.5 w-8 rounded-full" style={{ background: QUADRANT_META[key].color }} />
-            <p className="text-sm font-medium">{PROFILES[key].animal}</p>
-            <p className="text-xs text-[var(--muted)]">{QUADRANT_META[key].label}</p>
+          <div key={key} className="rounded-2xl border border-[var(--line)] bg-[var(--paper)] p-3 text-center backdrop-blur">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={PROFILES[key].image}
+              alt={PROFILES[key].animal}
+              className="mx-auto h-16 w-16 rounded-full object-cover"
+              style={{ border: `2px solid ${PROFILES[key].color}` }}
+            />
+            <p className="mt-2 text-sm font-medium">{PROFILES[key].title}</p>
           </div>
         ))}
       </div>
@@ -324,7 +329,7 @@ function Result({
   const [copied, setCopied] = useState(false);
 
   async function share() {
-    const text = `${name}, você é ${profile.article} ${profile.animal} — perfil ${profile.title}. ${profile.tagline} Faça o mapa: ${window.location.origin}`;
+    const text = `${name}, você é ${profile.title}. ${profile.tagline} Faça o mapa: ${window.location.origin}`;
     try {
       if (navigator.share) {
         await navigator.share({ title: "Quem eu sou?", text });
@@ -342,10 +347,10 @@ function Result({
     <main className="mx-auto w-full max-w-4xl px-4 pb-16 pt-8 sm:px-6">
       <p className="text-xs uppercase tracking-[0.35em] text-[var(--gold)]">Seu perfil predominante</p>
       <h1 className="font-display mt-3 text-4xl leading-tight sm:text-6xl">
-        {name}, você é {profile.article} {profile.animal}
+        {name}, você é {profile.title}
       </h1>
       <p className="mt-3 text-lg text-[var(--muted)]">
-        {profile.title} · {profile.axis}
+        {profile.axis}
       </p>
 
       <section className="mt-8 overflow-hidden rounded-[2rem] border border-white/10 bg-black/30">
@@ -361,13 +366,11 @@ function Result({
         <p className="mt-5 rounded-2xl border border-[var(--line)] bg-[var(--paper)] px-4 py-3 text-sm leading-relaxed">
           {result.dual ? (
             <>
-              Dupla dominância: você também é fortemente {result.secondary.article}{" "}
-              <strong>{result.secondary.animal}</strong> ({result.secondary.title}). Os dois lados pesam igual.
+              Dupla dominância: você também é fortemente <strong>{result.secondary.title}</strong>. Os dois lados pesam igual.
             </>
           ) : (
             <>
-              Perfil sombra: {result.secondary.article} <strong>{result.secondary.animal}</strong> (
-              {result.secondary.title}) está bem perto. Você combina os dois jeitos.
+              Perfil sombra: <strong>{result.secondary.title}</strong> está bem perto. Você combina os dois jeitos.
             </>
           )}
         </p>
@@ -436,7 +439,7 @@ function Result({
               <div key={row.key}>
                 <div className="mb-1.5 flex items-center justify-between text-sm">
                   <span>
-                    {animal.animal} · {meta.label} · {meta.axis}
+                    {animal.title} · {meta.axis}
                   </span>
                   <span className="tabular-nums text-[var(--muted)]">
                     {row.value} · {result.percents[row.key]}%

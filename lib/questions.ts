@@ -9,7 +9,7 @@ export const QUESTIONS: Question[] = [
     pick: 5,
     scene: "O que te acende",
     title: "O que te deixa mais motivado no trabalho?",
-    hint: "Escolha exatamente 5 situações. Vá pelo que realmente te move — não pelo que “parece certo”.",
+    hint: "Escolha exatamente 5 situações. Vá pelo que realmente te move, não pelo que “parece certo”.",
     options: [
       { id: "1.1", label: "Trabalhar sozinho", quadrant: "SE" },
       { id: "1.2", label: "Expressar minhas ideias", quadrant: "ID" },
@@ -25,7 +25,7 @@ export const QUESTIONS: Question[] = [
       { id: "1.12", label: "Planejar", quadrant: "IE" },
       { id: "1.13", label: "Trabalhar com comunicação", quadrant: "ID" },
       { id: "1.14", label: "Fazer algo funcionar", quadrant: "SE" },
-      { id: "1.15", label: "Arriscar-se", quadrant: "SD" },
+      { id: "1.15", label: "Arriscar", quadrant: "SD" },
       { id: "1.16", label: "Analisar dados", quadrant: "SE" },
       { id: "1.17", label: "Lidar com o futuro", quadrant: "SD" },
       { id: "1.18", label: "Produzir e organizar", quadrant: "IE" },
@@ -84,7 +84,7 @@ export const QUESTIONS: Question[] = [
       { id: "3.11", label: "Analisar números, dados e fatos", quadrant: "SE" },
       { id: "3.12", label: "Exemplos com metáforas", quadrant: "SD" },
       { id: "3.13", label: "Atividades passo a passo de reforço", quadrant: "IE" },
-      { id: "3.14", label: "Leitura de livros-texto", quadrant: "IE" },
+      { id: "3.14", label: "Leitura de livros texto", quadrant: "IE" },
       { id: "3.15", label: "Discussões de casos voltadas para as pessoas", quadrant: "ID" },
       { id: "3.16", label: "Discussões de casos voltadas para números e fatos", quadrant: "SE" },
       { id: "3.17", label: "Métodos tradicionais comprovados", quadrant: "IE" },
@@ -139,7 +139,7 @@ export const QUESTIONS: Question[] = [
     pick: 5,
     scene: "Você vai comprar um carro",
     title: "Ao comprar um carro, o que melhor define você?",
-    hint: "Escolha exatamente 5 frases. Pense no seu comportamento real — não no “ideal”.",
+    hint: "Escolha exatamente 5 frases. Pense no seu comportamento real, não no “ideal”.",
     options: [
       { id: "6.1", label: "Compro com base na recomendação de amigos", quadrant: "ID" },
       { id: "6.2", label: "Me preocupo com o consumo de combustível", quadrant: "SE" },
@@ -147,9 +147,9 @@ export const QUESTIONS: Question[] = [
       { id: "6.4", label: "Verifico equipamento de segurança e durabilidade", quadrant: "IE" },
       { id: "6.5", label: "Dou importância à “sensação” de conforto do veículo", quadrant: "ID" },
       { id: "6.6", label: "Faço comparações com outros veículos", quadrant: "SE" },
-      { id: "6.7", label: "Verifico o tamanho do porta-malas", quadrant: "IE" },
+      { id: "6.7", label: "Verifico o tamanho do porta malas", quadrant: "IE" },
       { id: "6.8", label: "Verifico se encaixa no meu sonho de vida", quadrant: "SD" },
-      { id: "6.9", label: "Pesquisa e planejo antecipadamente como vou utilizá-lo", quadrant: "IE" },
+      { id: "6.9", label: "Pesquisa e planejo antecipadamente como vou usar o carro", quadrant: "IE" },
       { id: "6.10", label: "Me preocupo com o custo e o valor de troca", quadrant: "SE" },
       { id: "6.11", label: "Quero “amar” o carro", quadrant: "ID" },
       { id: "6.12", label: "Prefiro carros lançados recentemente, novidades", quadrant: "SD" },
@@ -209,7 +209,7 @@ export const QUESTIONS: Question[] = [
     pick: 5,
     scene: "O que falam de você",
     title: "Quais frases depreciativas você mais ouve a seu respeito?",
-    hint: "Escolha exatamente 5. Pode doer um pouco — e é por isso que funciona.",
+    hint: "Escolha exatamente 5. Pode doer um pouco, e é por isso que funciona.",
     options: [
       { id: "9.1", label: "Viciado em números", quadrant: "SE" },
       { id: "9.2", label: "Coração mole", quadrant: "ID" },
@@ -228,7 +228,7 @@ export const QUESTIONS: Question[] = [
       { id: "9.15", label: "Bitolado", quadrant: "IE" },
       { id: "9.16", label: "Inconsequente", quadrant: "SD" },
       { id: "9.17", label: "Não se mistura", quadrant: "SE" },
-      { id: "9.18", label: "Ultra-sensível", quadrant: "ID" },
+      { id: "9.18", label: "Ultra sensível", quadrant: "ID" },
       { id: "9.19", label: "Quadrado", quadrant: "IE" },
       { id: "9.20", label: "Sem disciplina", quadrant: "SD" },
     ],
@@ -243,7 +243,7 @@ export const QUESTIONS: Question[] = [
     options: [
       {
         id: "10.1",
-        label: "Visualizo os fatos, tratando-os de forma intuitiva e holística",
+        label: "Visualizo os fatos, tratando os de forma intuitiva e holística",
         quadrant: "SD",
       },
       {
@@ -253,12 +253,12 @@ export const QUESTIONS: Question[] = [
       },
       {
         id: "10.3",
-        label: "Sinto os fatos, tratando-os de forma expressiva e interpessoal",
+        label: "Sinto os fatos, tratando os de forma expressiva e interpessoal",
         quadrant: "ID",
       },
       {
         id: "10.4",
-        label: "Analiso os fatos, tratando-os de forma lógica e racional",
+        label: "Analiso os fatos, tratando os de forma lógica e racional",
         quadrant: "SE",
       },
     ],
@@ -286,7 +286,7 @@ export const QUESTIONS: Question[] = [
     hint: "Escolha exatamente 3.",
     options: [
       { id: "12.1", label: "Sempre fazemos desta forma…", quadrant: "IE" },
-      { id: "12.2", label: "Vamos ao ponto-chave do problema…", quadrant: "SE" },
+      { id: "12.2", label: "Vamos ao ponto chave do problema…", quadrant: "SE" },
       { id: "12.3", label: "Vejamos os valores humanos…", quadrant: "ID" },
       { id: "12.4", label: "Vamos analisar…", quadrant: "SE" },
       { id: "12.5", label: "Vamos ver o quadro geral…", quadrant: "SD" },

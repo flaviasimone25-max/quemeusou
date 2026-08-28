@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local extract leftovers
+/public/animals/extract
+/public/animals/crops
+/public/animals/playbook-*.png
+/scripts
