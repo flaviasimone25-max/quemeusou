@@ -1,0 +1,92 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #070b14;
+  --bg-2: #0d1524;
+  --paper: rgba(16, 24, 38, 0.78);
+  --line: rgba(232, 220, 196, 0.12);
+  --text: #f4efe4;
+  --muted: #b7b0a3;
+  --gold: #e0b15a;
+  --gold-2: #f0d59a;
+}
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--text);
+  --font-sans: var(--font-outfit);
+  --font-display: var(--font-fraunces);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--text);
+}
+
+body {
+  font-family: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(26, 163, 196, 0.16), transparent 55%),
+    radial-gradient(900px 500px at 110% 10%, rgba(228, 178, 60, 0.12), transparent 50%),
+    radial-gradient(800px 500px at 80% 110%, rgba(224, 106, 60, 0.1), transparent 45%),
+    var(--bg);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.font-display {
+  font-family: var(--font-fraunces), ui-serif, Georgia, serif;
+}
+
+.noise {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  z-index: 40;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes fillbar {
+  from {
+    width: 0;
+  }
+}
+
+.rise {
+  animation: rise 0.7s ease both;
+}
+
+.glow {
+  animation: glow 2.4s ease-in-out infinite;
+}
