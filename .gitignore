@@ -45,3 +45,5 @@ next-env.d.ts
 /public/animals/crops
 /public/animals/playbook-*.png
 /scripts
+form-debug.html
+form-data.json

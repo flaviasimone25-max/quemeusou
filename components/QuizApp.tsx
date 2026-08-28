@@ -5,6 +5,7 @@ import { QUESTIONS } from "@/lib/questions";
 import { PROFILES, QUADRANT_META } from "@/lib/profiles";
 import { computeScores, interpret } from "@/lib/score";
 import { OFFER_HOST, OFFER_NAME, OFFER_PRICE, OFFER_URL } from "@/lib/offer";
+import { submitLead } from "@/lib/form";
 import type { Quadrant, Question } from "@/lib/types";
 
 type Stage = "intro" | "quiz" | "reveal" | "result";
@@ -13,6 +14,8 @@ const STORAGE_KEY = "quemeusou-v1";
 
 type SavedState = {
   name: string;
+  whatsapp: string;
+  profession: string;
   index: number;
   answers: Record<string, string[]>;
   stage: Stage;
@@ -32,6 +35,9 @@ function loadState(): SavedState | null {
 export function QuizApp() {
   const [stage, setStage] = useState<Stage>("intro");
   const [name, setName] = useState("");
+  const [whatsapp, setWhatsapp] = useState("");
+  const [profession, setProfession] = useState("");
+  const [sending, setSending] = useState(false);
   const [index, setIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string[]>>({});
   const [hydrated, setHydrated] = useState(false);
@@ -40,6 +46,8 @@ export function QuizApp() {
     const saved = loadState();
     if (saved) {
       setName(saved.name ?? "");
+      setWhatsapp(saved.whatsapp ?? "");
+      setProfession(saved.profession ?? "");
       setIndex(saved.index ?? 0);
       setAnswers(saved.answers ?? {});
       const nextStage = saved.stage === "reveal" ? "result" : saved.stage;
@@ -50,15 +58,26 @@ export function QuizApp() {
 
   useEffect(() => {
     if (!hydrated) return;
-    sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ name, index, answers, stage }));
-  }, [name, index, answers, stage, hydrated]);
+    sessionStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ name, whatsapp, profession, index, answers, stage }),
+    );
+  }, [name, whatsapp, profession, index, answers, stage, hydrated]);
 
   const scores = useMemo(() => computeScores(answers), [answers]);
   const result = useMemo(() => interpret(scores), [scores]);
   const question = QUESTIONS[index];
   const picked = answers[question?.id] ?? [];
 
-  function start() {
+  async function start() {
+    setSending(true);
+    try {
+      await submitLead({ name, whatsapp, profession });
+    } catch {
+      /* segue o quiz mesmo se o Forms falhar */
+    } finally {
+      setSending(false);
+    }
     setStage("quiz");
     setIndex(0);
   }
@@ -103,7 +122,21 @@ export function QuizApp() {
     <>
       <div className="noise" />
       {stage === "intro" && (
-        <Intro name={name} onName={setName} onStart={start} canContinue={name.trim().length > 1} />
+        <Intro
+          name={name}
+          whatsapp={whatsapp}
+          profession={profession}
+          sending={sending}
+          onName={setName}
+          onWhatsapp={setWhatsapp}
+          onProfession={setProfession}
+          onStart={start}
+          canContinue={
+            name.trim().length > 1 &&
+            whatsapp.replace(/\D/g, "").length >= 10 &&
+            profession.trim().length > 1
+          }
+        />
       )}
       {stage === "quiz" && question && (
         <QuizScreen
@@ -129,15 +162,28 @@ export function QuizApp() {
 
 function Intro({
   name,
+  whatsapp,
+  profession,
+  sending,
   onName,
+  onWhatsapp,
+  onProfession,
   onStart,
   canContinue,
 }: {
   name: string;
+  whatsapp: string;
+  profession: string;
+  sending: boolean;
   onName: (value: string) => void;
+  onWhatsapp: (value: string) => void;
+  onProfession: (value: string) => void;
   onStart: () => void;
   canContinue: boolean;
 }) {
+  const fieldClass =
+    "mt-2 w-full rounded-2xl border border-[var(--line)] bg-black/30 px-4 py-3 text-lg text-[var(--text)] outline-none ring-[var(--gold)] placeholder:text-white/25 focus:ring-2";
+
   return (
     <main className="relative mx-auto flex min-h-screen w-full max-w-3xl flex-col justify-center px-5 py-12">
       <p className="rise text-xs tracking-[0.35em] text-[var(--gold)] uppercase">Trinus · Dominância cerebral</p>
@@ -163,28 +209,53 @@ function Intro({
           </div>
         ))}
       </div>
-      <label className="rise mt-10 block text-sm text-[var(--muted)]" style={{ animationDelay: "260ms" }}>
-        Como você se chama?
-        <input
-          value={name}
-          onChange={(event) => onName(event.target.value)}
-          onKeyDown={(event) => {
-            if (event.key === "Enter" && canContinue) onStart();
-          }}
-          placeholder="Seu primeiro nome"
-          className="mt-2 w-full rounded-2xl border border-[var(--line)] bg-black/30 px-4 py-3 text-lg text-[var(--text)] outline-none ring-[var(--gold)] placeholder:text-white/25 focus:ring-2"
-        />
-      </label>
+      <div className="rise mt-10 space-y-4" style={{ animationDelay: "260ms" }}>
+        <label className="block text-sm text-[var(--muted)]">
+          Como você chama?
+          <input
+            value={name}
+            onChange={(event) => onName(event.target.value)}
+            placeholder="Seu nome"
+            autoComplete="name"
+            className={fieldClass}
+          />
+        </label>
+        <label className="block text-sm text-[var(--muted)]">
+          Qual numero do teu WhatsApp?
+          <input
+            value={whatsapp}
+            onChange={(event) => onWhatsapp(event.target.value)}
+            placeholder="11999999999"
+            type="tel"
+            inputMode="tel"
+            autoComplete="tel"
+            className={fieldClass}
+          />
+        </label>
+        <label className="block text-sm text-[var(--muted)]">
+          Profissão
+          <input
+            value={profession}
+            onChange={(event) => onProfession(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" && canContinue && !sending) onStart();
+            }}
+            placeholder="Sua profissão"
+            autoComplete="organization-title"
+            className={fieldClass}
+          />
+        </label>
+      </div>
       <button
-        disabled={!canContinue}
+        disabled={!canContinue || sending}
         onClick={onStart}
         className="rise mt-5 rounded-full bg-[var(--gold)] px-8 py-3.5 text-base font-semibold text-[#1a1408] transition enabled:hover:bg-[var(--gold-2)] disabled:opacity-40"
         style={{ animationDelay: "320ms" }}
       >
-        Começar o mapa · 12 etapas
+        {sending ? "Enviando..." : "Começar o mapa · 12 etapas"}
       </button>
       <p className="mt-4 text-xs text-white/35">
-        Mesma estrutura do teste de Ned Herrmann que você já usa: 40 escolhas, 4 quadrantes, resultado fiel.
+        Usamos nome, WhatsApp e profissão para a consultoria Quem Eu Sou.
       </p>
     </main>
   );
