@@ -10,14 +10,21 @@ type Stage = "intro" | "quiz" | "reveal" | "result";
 
 const STORAGE_KEY = "quemeusou-v1";
 
-function loadState(): { name: string; index: number; answers: Record<string, string[]> } {
-  if (typeof window === "undefined") return { name: "", index: 0, answers: {} };
+type SavedState = {
+  name: string;
+  index: number;
+  answers: Record<string, string[]>;
+  stage: Stage;
+};
+
+function loadState(): SavedState | null {
+  if (typeof window === "undefined") return null;
   try {
     const raw = sessionStorage.getItem(STORAGE_KEY);
-    if (!raw) return { name: "", index: 0, answers: {} };
-    return JSON.parse(raw);
+    if (!raw) return null;
+    return JSON.parse(raw) as SavedState;
   } catch {
-    return { name: "", index: 0, answers: {} };
+    return null;
   }
 }
 
@@ -26,20 +33,24 @@ export function QuizApp() {
   const [name, setName] = useState("");
   const [index, setIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string[]>>({});
-  const [ready, setReady] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
     const saved = loadState();
-    setName(saved.name ?? "");
-    setIndex(saved.index ?? 0);
-    setAnswers(saved.answers ?? {});
-    setReady(true);
+    if (saved) {
+      setName(saved.name ?? "");
+      setIndex(saved.index ?? 0);
+      setAnswers(saved.answers ?? {});
+      const nextStage = saved.stage === "reveal" ? "result" : saved.stage;
+      if (nextStage) setStage(nextStage);
+    }
+    setHydrated(true);
   }, []);
 
   useEffect(() => {
-    if (!ready) return;
-    sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ name, index, answers }));
-  }, [name, index, answers, ready]);
+    if (!hydrated) return;
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ name, index, answers, stage }));
+  }, [name, index, answers, stage, hydrated]);
 
   const scores = useMemo(() => computeScores(answers), [answers]);
   const result = useMemo(() => interpret(scores), [scores]);
@@ -86,8 +97,6 @@ export function QuizApp() {
     setIndex(0);
     setStage("intro");
   }
-
-  if (!ready) return <div className="min-h-screen" />;
 
   return (
     <>
