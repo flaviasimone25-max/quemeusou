@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { QUESTIONS } from "@/lib/questions";
 import { PROFILES, QUADRANT_META } from "@/lib/profiles";
 import { computeScores, interpret } from "@/lib/score";
-import { OFFER_CTA, OFFER_PRICE, OFFER_URL, WHATSAPP_URL } from "@/lib/offer";
+import { OFFER_CTA, OFFER_PRICE, WHATSAPP_URL } from "@/lib/offer";
+import { buildCheckoutUrl } from "@/lib/kiwify";
 import { submitLead } from "@/lib/form";
 import type { Quadrant, Question } from "@/lib/types";
 
@@ -155,7 +156,15 @@ export function QuizApp() {
           onDone={() => setStage("result")}
         />
       )}
-      {stage === "result" && <Result name={name.trim()} result={result} onRestart={restart} />}
+      {stage === "result" && (
+        <Result
+          name={name.trim()}
+          whatsapp={whatsapp}
+          profession={profession}
+          result={result}
+          onRestart={restart}
+        />
+      )}
     </>
   );
 }
@@ -391,15 +400,65 @@ function QuadFill({ label, color, percent }: { label: string; color: string; per
 
 function Result({
   name,
+  whatsapp,
+  profession,
   result,
   onRestart,
 }: {
   name: string;
+  whatsapp: string;
+  profession: string;
   result: ReturnType<typeof interpret>;
   onRestart: () => void;
 }) {
   const profile = result.primary;
   const [copied, setCopied] = useState(false);
+  const [resultId, setResultId] = useState<string | null>(null);
+  const saveRef = useRef<Promise<string> | null>(null);
+
+  function persistResult() {
+    if (!saveRef.current) {
+      saveRef.current = fetch("/api/results", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          whatsapp,
+          profession,
+          scores: result.scores,
+          percents: result.percents,
+          primary: result.primary.id,
+          secondary: result.secondary.id,
+        }),
+      })
+        .then(async (response) => {
+          const data = (await response.json()) as { id?: string };
+          if (!response.ok || !data.id) throw new Error("falha ao gravar resultado");
+          setResultId(data.id);
+          return data.id;
+        })
+        .catch((error) => {
+          saveRef.current = null;
+          throw error;
+        });
+    }
+    return saveRef.current;
+  }
+
+  useEffect(() => {
+    persistResult().catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  async function openCheckout(event: { preventDefault: () => void }) {
+    event.preventDefault();
+    try {
+      const id = resultId ?? (await persistResult());
+      window.open(buildCheckoutUrl({ name, phone: whatsapp, resultId: id }), "_blank", "noopener,noreferrer");
+    } catch {
+      window.open(buildCheckoutUrl({ name, phone: whatsapp }), "_blank", "noopener,noreferrer");
+    }
+  }
 
   async function share() {
     const text = `${name}, você é ${profile.title}. ${profile.tagline} Faça o mapa: ${window.location.origin}`;
@@ -550,7 +609,7 @@ function Result({
         <CuriosityBlur hook={profile.hook} lines={profile.teaser} />
       </article>
 
-      <OfferCard />
+      <OfferCard name={name} whatsapp={whatsapp} resultId={resultId} onCheckout={openCheckout} />
 
       <div className="mt-8 flex flex-wrap gap-3">
         <button
@@ -592,7 +651,17 @@ function CuriosityBlur({ hook, lines }: { hook: string; lines: string[] }) {
   );
 }
 
-function OfferCard() {
+function OfferCard({
+  name,
+  whatsapp,
+  resultId,
+  onCheckout,
+}: {
+  name: string;
+  whatsapp: string;
+  resultId: string | null;
+  onCheckout: (event: { preventDefault: () => void }) => void;
+}) {
   return (
     <section
       id="saiba-mais"
@@ -633,7 +702,8 @@ function OfferCard() {
           <WhatsAppIcon />
         </a>
         <a
-          href={OFFER_URL}
+          href={buildCheckoutUrl({ name, phone: whatsapp, resultId: resultId ?? undefined })}
+          onClick={onCheckout}
           target="_blank"
           rel="noopener noreferrer"
           className="rounded-full bg-[var(--gold)] px-7 py-3.5 text-sm font-semibold tracking-wide text-[#1a1408]"
