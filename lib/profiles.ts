@@ -17,10 +17,9 @@ export type Profile = {
   improve: string[];
   phrases: string[];
   careers: string[];
-  careersHidden: string[];
   feeling: string;
-  feelingHidden: string[];
-  locked: { title: string; lines: string[] }[];
+  hook: string;
+  teaser: string[];
 };
 
 export const QUADRANT_META: Record<
@@ -64,36 +63,15 @@ export const PROFILES: Record<Quadrant, Profile> = {
     ],
     phrases: ["O quê?", "Vamos ao ponto chave.", "Me mostra o resultado.", "Quanto isso rende?"],
     careers: ["Gestão e liderança", "Vendas de alta performance", "Finanças e números", "Consultoria estratégica"],
-    careersHidden: [
-      "Engenharia e operação com meta",
-      "Jurídico e análise de risco",
-      "Empreender com foco em escala",
-      "Diretoria comercial e P&L",
-      "Tecnologia aplicada a resultado",
-    ],
     feeling:
       "Na conquista, você avança rápido. Dá certo com o Comunicador quando desacelera e escuta o clima. Com o Detalhista flui se houver combinado claro. Com outro Dominante a faísca existe, mas os dois querem o volante.",
-    feelingHidden: [
-      "O ajuste fino: trocar cobrança por presença nos primeiros minutos da conversa.",
-      "O que afasta o Visionário é parecer que só o agora importa.",
-      "No amor, sua linguagem é prova. A do outro pode ser tempo, toque ou palavras.",
-      "O roteiro de 1 hora mapeia com quem você combina e onde a relação trava por estilo, não por falta de amor.",
-    ],
-    locked: [
-      {
-        title: "Como você se sabota sem perceber",
-        lines: [
-          "A objetividade vira distância. A meta vira pressa. A crítica vira muro.",
-          "Existe um jeito de manter o corte fino sem gelar o ambiente. Isso se treina na conversa, não num texto.",
-        ],
-      },
-      {
-        title: "Como liderar e vender no seu código",
-        lines: [
-          "As palavras que aceleram o seu sim e as que fazem você desligar.",
-          "O mapa de objeção real por trás de “tá caro” quando o perfil é o seu.",
-        ],
-      },
+    hook: "Você fecha rápido, cobra o ponto e parece indestrutível. O que quase ninguém vê é o instante em que a objetividade vira",
+    teaser: [
+      "distância. A meta vira pressa. A crítica vira muro sem você perceber.",
+      "Existe um jeito de manter o corte fino sem gelar o ambiente, e ele se treina na conversa.",
+      "As palavras que aceleram o seu sim e as que fazem o outro desligar.",
+      "O mapa de objeção real por trás de “tá caro” quando o perfil é o seu.",
+      "O ajuste fino: trocar cobrança por presença nos primeiros minutos. Isso muda venda, liderança e relação.",
     ],
   },
   IE: {
@@ -126,36 +104,15 @@ export const PROFILES: Record<Quadrant, Profile> = {
     ],
     phrases: ["Como?", "Vamos no passo a passo.", "É mais seguro desta forma.", "Qual é o processo?"],
     careers: ["Gestão de projetos", "Qualidade e processos", "Operações", "Contabilidade e controle"],
-    careersHidden: [
-      "Compliance e governança",
-      "Saúde, clínicas e rotina assistencial",
-      "Logística e planejamento",
-      "Educação com método",
-      "RH de estrutura e política interna",
-    ],
     feeling:
       "Você conquista com consistência. Dá certo com o Visionário quando o outro traz o sonho e você traz o chão. Com o Dominante flui se o combinado for respeitado. Com o Comunicador precisa soltar o roteiro e deixar espaço para o imprevisível.",
-    feelingHidden: [
+    hook: "Você entrega no prazo e dá segurança a todo mundo ao redor. O que quase ninguém vê é o momento em que o detalhe deixa de proteger e vira",
+    teaser: [
+      "prisão. Organizar demais, depois de um ponto, evita viver.",
+      "Há um jeito de pedir, recusar e se posicionar no seu idioma: claro, sem agressividade e sem se apagar.",
+      "Isso muda reunião, namoro e dinheiro.",
       "O ajuste fino: decidir sem ter todas as provas. Segurança demais vira atraso na relação.",
-      "Dois Detalhistas se entendem, mas podem nunca pular. Alguém precisa dar o primeiro passo incompleto.",
-      "No sentimento, você pede previsibilidade. A outra pessoa pode pedir surpresa.",
-      "Na consultoria a gente desenha o seu ritmo de aproximação: o que é cautela saudável e o que é medo vestido de método.",
-    ],
-    locked: [
-      {
-        title: "Onde o detalhe vira prisão",
-        lines: [
-          "Há um ponto em que organizar protege. Depois disso, organizar evita viver.",
-          "Na 1 hora a gente marca essa fronteira no seu mapa, com exemplos da sua rotina.",
-        ],
-      },
-      {
-        title: "Como pedir, recusar e se posicionar",
-        lines: [
-          "Frases no seu idioma: claro, sem agressividade e sem se apagar.",
-          "Isso muda reunião, namoro e dinheiro. Não cabe num card aberto.",
-        ],
-      },
+      "A fronteira entre cautela saudável e medo vestido de método. Ela aparece na sua rotina, não num texto aberto.",
     ],
   },
   SD: {
@@ -188,36 +145,15 @@ export const PROFILES: Record<Quadrant, Profile> = {
     ],
     phrases: ["Por quê?", "Vamos ver o quadro geral.", "E se pudéssemos…", "Isso tem potencial."],
     careers: ["Inovação e produto", "Marketing e branding", "Criação e design", "Startups e novos negócios"],
-    careersHidden: [
-      "Educação do futuro e conteúdo",
-      "Arquitetura de ideias e estratégia",
-      "Cultura, arte e experiência",
-      "Consultoria de posicionamento",
-      "Liderança de times criativos",
-    ],
     feeling:
       "Você conquista com visão e novidade. Dá certo com o Detalhista: um sonha, o outro segura. Com o Comunicador a energia sobe. Com o Dominante pode ser dupla poderosa se um cuida do futuro e o outro do resultado. Dois Visionários acendem, e quase não aterrissam.",
-    feelingHidden: [
-      "O ajuste fino: transformar a conversa sobre o futuro em um próximo passo visível esta semana.",
+    hook: "Você enxerga o que ainda não existe e acende quem está perto. O que quase ninguém vê é o instante em que a ideia nova chega e a anterior",
+    teaser: [
+      "esfria. Existe um ritual curto que segura a execução sem matar a criatividade.",
+      "Como as pessoas te seguem, onde você dispersa o time e o que falta para a visão virar movimento.",
       "O que te conquista é liberdade. O que te perde é rotina sem sentido.",
       "Na conquista, reconhecimento é combustível. Sem isso, você some mesmo gostando.",
       "A leitura completa cruza o seu mapa com o da outra pessoa e mostra o contrato invisível que vocês já assinaram sem perceber.",
-    ],
-    locked: [
-      {
-        title: "Como não abandonar o que você começou",
-        lines: [
-          "Ideia nova chega, a anterior esfria. Existe um ritual curto que segura a execução sem matar a criatividade.",
-          "Esse é um dos blocos mais pedidos na consultoria Quem Eu Sou.",
-        ],
-      },
-      {
-        title: "O seu código de influência",
-        lines: [
-          "Como as pessoas te seguem, onde você dispersa o time e o que falta para a visão virar movimento.",
-          "Palavras, ritmo e palco: o restante fica para a conversa de 1 hora.",
-        ],
-      },
     ],
   },
   ID: {
@@ -250,36 +186,15 @@ export const PROFILES: Record<Quadrant, Profile> = {
     ],
     phrases: ["Quem?", "Vamos envolver todo mundo.", "Como você se sente nisso?", "Boa energia."],
     careers: ["Relacionamento e vendas", "RH e cultura", "Atendimento e sucesso do cliente", "Comunicação e conteúdo"],
-    careersHidden: [
-      "Eventos e hospitalidade",
-      "Educação e facilitação",
-      "Psicologia, coaching e cuidado",
-      "Comunidade e marca pessoal",
-      "Mediação e experiências em grupo",
-    ],
     feeling:
       "Você conquista com presença. Dá certo com o Dominante quando se sente visto e não atropelado. Com o Visionário a conversa vira mundo. Com o Detalhista o ajuste é ouro: um pede clima, o outro pede plano. Dois Comunicadores se entendem, e às vezes não fecham decisão.",
-    feelingHidden: [
-      "O ajuste fino: gostar da pessoa não pode ser o único critério. Existe um filtro simples para não se entregar cedo demais.",
-      "Falta de conexão trava você. Pressão fria também. O meio termo tem método, e ele muda para cada par de perfis.",
-      "Na conquista, você lê o ambiente melhor do que lê o combinado. Na 1 hora a gente equilibra feeling e fato.",
+    hook: "Você lê o clima e conquista com presença. O que quase ninguém vê é o ponto em que empatia alta sem fronteira vira",
+    teaser: [
+      "cansaço. Dá para cuidar sem desaparecer.",
+      "O seu fechamento não é pressão. É vínculo mais clareza.",
+      "Há um roteiro no seu idioma para pedir o sim, em venda e em relação.",
+      "Gostar da pessoa não pode ser o único critério. Existe um filtro simples para não se entregar cedo demais.",
       "O mapa afetivo mostra com quem a relação flui no automático e onde vocês vão precisar de tradução consciente.",
-    ],
-    locked: [
-      {
-        title: "Como não se perder no outro",
-        lines: [
-          "Empatia alta sem fronteira vira cansaço. Dá para cuidar sem desaparecer.",
-          "A consultoria marca o seu limite saudável, no trabalho e no amor.",
-        ],
-      },
-      {
-        title: "A conversa que fecha, sem forçar",
-        lines: [
-          "O seu fechamento não é pressão. É vínculo mais clareza.",
-          "Há um roteiro no seu idioma para pedir o sim, em venda e em relação.",
-        ],
-      },
     ],
   },
 };

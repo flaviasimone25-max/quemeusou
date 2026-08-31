@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { QUESTIONS } from "@/lib/questions";
 import { PROFILES, QUADRANT_META } from "@/lib/profiles";
 import { computeScores, interpret } from "@/lib/score";
-import { OFFER_HOST, OFFER_NAME, OFFER_PRICE, OFFER_URL } from "@/lib/offer";
+import { OFFER_COPY, OFFER_PRICE, OFFER_URL, WHATSAPP_URL } from "@/lib/offer";
 import { submitLead } from "@/lib/form";
 import type { Quadrant, Question } from "@/lib/types";
 
@@ -541,48 +541,23 @@ function Result({
             </span>
           ))}
         </div>
-        <LockedBlock>
-          <div className="mt-4 flex flex-wrap gap-2">
-            {profile.careersHidden.map((item) => (
-              <span key={item} className="rounded-full border border-white/10 px-3 py-1.5 text-sm">
-                {item}
-              </span>
-            ))}
-          </div>
-          <p className="mt-4 text-sm leading-relaxed">
-            A combinação do seu mapa com o cargo certo, o tipo de chefia que te drena e o modelo de trabalho em que você rende 2x.
-          </p>
-        </LockedBlock>
       </article>
 
       <article className="mt-4 rounded-3xl border border-[var(--line)] bg-[var(--paper)] p-5">
         <h3 className="font-display text-2xl">No sentimento e na conquista</h3>
         <p className="mt-4 text-sm leading-relaxed text-[var(--muted)]">{profile.feeling}</p>
-        <LockedBlock>
-          <ul className="mt-4 space-y-3 text-sm leading-relaxed">
-            {profile.feelingHidden.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </LockedBlock>
       </article>
 
-      <div className="mt-4 grid gap-4 sm:grid-cols-2">
-        {profile.locked.map((block) => (
-          <article key={block.title} className="rounded-3xl border border-[var(--line)] bg-[var(--paper)] p-5">
-            <h3 className="font-display text-2xl">{block.title}</h3>
-            <LockedBlock>
-              <ul className="mt-4 space-y-3 text-sm leading-relaxed">
-                {block.lines.map((line) => (
-                  <li key={line}>{line}</li>
-                ))}
-              </ul>
-            </LockedBlock>
-          </article>
-        ))}
-      </div>
+      <article className="mt-4 rounded-3xl border border-[var(--line)] bg-[var(--paper)] p-5">
+        <p className="text-base leading-relaxed sm:text-lg">{profile.hook}</p>
+        <div className="locked-blur mt-3 space-y-2 text-sm leading-relaxed text-[var(--muted)]" aria-hidden="true">
+          {profile.teaser.map((line) => (
+            <p key={line}>{line}</p>
+          ))}
+        </div>
+      </article>
 
-      <OfferCard name={name} title={profile.title} />
+      <OfferCard />
 
       <div className="mt-8 flex flex-wrap gap-3">
         <button
@@ -602,53 +577,45 @@ function Result({
   );
 }
 
-function LockedBlock({ children }: { children: React.ReactNode }) {
+function OfferCard() {
   return (
-    <div className="relative mt-4 overflow-hidden rounded-2xl border border-white/10">
-      <div className="locked-blur p-4 text-[var(--muted)]">{children}</div>
-      <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#070b14]/55 px-4 text-center backdrop-blur-[1px]">
-        <p className="font-display text-2xl">Saiba mais</p>
-        <p className="mt-1 max-w-sm text-sm text-[var(--muted)]">
-          {OFFER_NAME} · 1 hora on-line com {OFFER_HOST}
-        </p>
+    <section className="mt-8 overflow-hidden rounded-[2rem] border border-[var(--gold)]/40 bg-[var(--paper)] p-6 sm:p-8">
+      <p className="font-display text-3xl leading-tight sm:text-4xl">Saiba mais</p>
+      <div className="mt-4 max-w-2xl space-y-4 text-sm leading-relaxed text-[var(--muted)]">
+        {OFFER_COPY.map((paragraph) => (
+          <p key={paragraph} className="last:text-[var(--text)] last:font-medium">
+            {paragraph}
+          </p>
+        ))}
+      </div>
+      <div className="mt-7 flex flex-wrap items-center gap-3">
+        <a
+          href={WHATSAPP_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-6 py-3.5 text-sm font-semibold text-[#07331a]"
+        >
+          <WhatsAppIcon />
+          WhatsApp
+        </a>
         <a
           href={OFFER_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-4 rounded-full bg-[var(--gold)] px-6 py-2.5 text-sm font-semibold text-[#1a1408]"
+          className="rounded-full bg-[var(--gold)] px-7 py-3.5 text-sm font-semibold tracking-wide text-[#1a1408]"
         >
-          Desbloquear por {OFFER_PRICE}
+          QUERO
         </a>
       </div>
-    </div>
+      <p className="mt-3 text-xs text-white/40">Consultoria · {OFFER_PRICE} · pagamento seguro via Kiwify</p>
+    </section>
   );
 }
 
-function OfferCard({ name, title }: { name: string; title: string }) {
+function WhatsAppIcon() {
   return (
-    <section className="mt-8 overflow-hidden rounded-[2rem] border border-[var(--gold)]/40 bg-[var(--paper)] p-6 sm:p-8">
-      <p className="text-xs uppercase tracking-[0.28em] text-[var(--gold)]">Próximo passo</p>
-      <h3 className="font-display mt-2 text-3xl leading-tight sm:text-4xl">{OFFER_NAME}</h3>
-      <p className="mt-4 max-w-2xl text-sm leading-relaxed text-[var(--muted)]">
-        {name}, este mapa é o começo. Em 1 hora on-line, {OFFER_HOST} lê o seu perfil {title},
-        cruza carreira e sentimento, e traduz o que ficou desfocado: onde você performa, com quem a relação flui e o que precisa de ajuste para conquistar sem se perder.
-      </p>
-      <ul className="mt-5 space-y-2 text-sm text-[var(--text)]/90">
-        <li>Consultoria individual de 1 hora, on-line</li>
-        <li>Especialista em comportamento: {OFFER_HOST}</li>
-        <li>Leitura do seu mapa, carreira, sentimento e código de comunicação</li>
-      </ul>
-      <div className="mt-6 flex flex-wrap items-center gap-4">
-        <a
-          href={OFFER_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="rounded-full bg-[var(--gold)] px-7 py-3.5 text-sm font-semibold text-[#1a1408]"
-        >
-          Saiba mais · {OFFER_PRICE}
-        </a>
-        <p className="text-xs text-white/40">Pagamento seguro via Kiwify</p>
-      </div>
-    </section>
+    <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" aria-hidden="true">
+      <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.3-1.39a9.86 9.86 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Zm5.75 14.09c-.24.68-1.4 1.26-1.94 1.34-.5.07-1.12.1-1.81-.11-.42-.13-.95-.31-1.64-.61-2.89-1.25-4.77-4.16-4.92-4.35-.14-.19-1.18-1.57-1.18-3 0-1.42.75-2.12 1.01-2.41.26-.29.57-.36.76-.36h.55c.17 0 .41-.07.64.49.24.58.82 2 .89 2.15.07.14.12.31.02.5-.1.19-.14.31-.28.48-.14.17-.29.37-.42.5-.14.14-.28.29-.12.56.16.26.72 1.18 1.54 1.91 1.06.95 1.95 1.24 2.22 1.38.28.14.44.12.6-.07.16-.19.69-.8.87-1.08.19-.26.37-.22.62-.13.26.1 1.64.77 1.92.91.28.14.47.21.54.33.07.12.07.68-.17 1.36Z" />
+    </svg>
   );
 }
