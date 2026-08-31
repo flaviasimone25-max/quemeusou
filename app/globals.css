@@ -29,6 +29,10 @@ body {
   color: var(--text);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
   background:

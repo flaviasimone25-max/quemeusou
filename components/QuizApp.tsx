@@ -574,10 +574,19 @@ function CuriosityBlur({ hook, lines }: { hook: string; lines: string[] }) {
   return (
     <div className="mt-4">
       <p className="text-sm leading-relaxed sm:text-base">{hook}</p>
-      <div className="locked-blur mt-2 space-y-2 text-sm leading-relaxed text-[var(--muted)]" aria-hidden="true">
-        {lines.map((line) => (
-          <p key={line}>{line}</p>
-        ))}
+      <div className="relative mt-2 overflow-hidden rounded-xl pb-14">
+        <div className="locked-blur space-y-2 pr-2 text-sm leading-relaxed text-[var(--muted)]" aria-hidden="true">
+          {lines.map((line) => (
+            <p key={line}>{line}</p>
+          ))}
+        </div>
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0b1018] via-[#0b1018]/50 to-transparent" />
+        <a
+          href="#saiba-mais"
+          className="absolute right-2 bottom-2 z-10 max-w-[calc(100%-1rem)] rounded-full bg-[var(--gold)] px-3 py-2 text-center text-[11px] font-semibold tracking-wide text-[#1a1408] sm:px-4 sm:text-xs"
+        >
+          🔒 DESBLOQUEAR MINHA ANÁLISE
+        </a>
       </div>
     </div>
   );
@@ -585,7 +594,10 @@ function CuriosityBlur({ hook, lines }: { hook: string; lines: string[] }) {
 
 function OfferCard() {
   return (
-    <section className="mt-8 overflow-hidden rounded-[2rem] border border-[var(--gold)]/40 bg-[var(--paper)] p-6 sm:p-8">
+    <section
+      id="saiba-mais"
+      className="mt-8 scroll-mt-6 overflow-hidden rounded-[2rem] border border-[var(--gold)]/40 bg-[var(--paper)] p-6 sm:p-8"
+    >
       <p className="font-display text-3xl leading-tight sm:text-4xl">Saiba mais</p>
       <div className="mt-4 max-w-2xl space-y-4 text-sm leading-relaxed text-[var(--muted)]">
         <p>
