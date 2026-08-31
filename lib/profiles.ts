@@ -17,6 +17,8 @@ export type Profile = {
   improve: string[];
   phrases: string[];
   careers: string[];
+  workHook: string;
+  workTeaser: string[];
   feeling: string;
   hook: string;
   teaser: string[];
@@ -63,6 +65,13 @@ export const PROFILES: Record<Quadrant, Profile> = {
     ],
     phrases: ["O quê?", "Vamos ao ponto chave.", "Me mostra o resultado.", "Quanto isso rende?"],
     careers: ["Gestão e liderança", "Vendas de alta performance", "Finanças e números", "Consultoria estratégica"],
+    workHook:
+      "Você performa onde tem meta, prazo e placar. O que quase ninguém vê é o ambiente em que essa objetividade vira",
+    workTeaser: [
+      "distância. A equipe entrega o número e some o clima.",
+      "Diretoria comercial, P&L e escala pedem o seu corte.",
+      "O tom da cobrança nos primeiros minutos decide se o time segue ou trava.",
+    ],
     feeling:
       "Na conquista, você avança rápido. Dá certo com o Comunicador quando desacelera e escuta o clima. Com o Detalhista flui se houver combinado claro. Com outro Dominante a faísca existe, mas os dois querem o volante.",
     hook: "Você fecha rápido, cobra o ponto e parece indestrutível. O que quase ninguém vê é o instante em que a objetividade vira",
@@ -104,6 +113,13 @@ export const PROFILES: Record<Quadrant, Profile> = {
     ],
     phrases: ["Como?", "Vamos no passo a passo.", "É mais seguro desta forma.", "Qual é o processo?"],
     careers: ["Gestão de projetos", "Qualidade e processos", "Operações", "Contabilidade e controle"],
+    workHook:
+      "Você performa onde o processo precisa ser infalível. O que quase ninguém vê é o ponto em que o método deixa de proteger e vira",
+    workTeaser: [
+      "travamento. Compliance, logística e qualidade pedem o seu olho.",
+      "O excesso de prova atrasa a decisão que já estava pronta.",
+      "Há um jeito de pedir, recusar e se posicionar sem se apagar.",
+    ],
     feeling:
       "Você conquista com consistência. Dá certo com o Visionário quando o outro traz o sonho e você traz o chão. Com o Dominante flui se o combinado for respeitado. Com o Comunicador precisa soltar o roteiro e deixar espaço para o imprevisível.",
     hook: "Você entrega no prazo e dá segurança a todo mundo ao redor. O que quase ninguém vê é o momento em que o detalhe deixa de proteger e vira",
@@ -145,6 +161,13 @@ export const PROFILES: Record<Quadrant, Profile> = {
     ],
     phrases: ["Por quê?", "Vamos ver o quadro geral.", "E se pudéssemos…", "Isso tem potencial."],
     careers: ["Inovação e produto", "Marketing e branding", "Criação e design", "Startups e novos negócios"],
+    workHook:
+      "Você performa onde o problema ainda não tem manual. O que quase ninguém vê é o instante em que a visão precisa virar",
+    workTeaser: [
+      "execução. Sem um ritual curto, a ideia nova chega e a anterior esfria.",
+      "Posicionamento, produto e times criativos pedem o seu olhar.",
+      "O cargo certo te dá liberdade. O errado é rotina sem sentido, mesmo com salário alto.",
+    ],
     feeling:
       "Você conquista com visão e novidade. Dá certo com o Detalhista: um sonha, o outro segura. Com o Comunicador a energia sobe. Com o Dominante pode ser dupla poderosa se um cuida do futuro e o outro do resultado. Dois Visionários acendem, e quase não aterrissam.",
     hook: "Você enxerga o que ainda não existe e acende quem está perto. O que quase ninguém vê é o instante em que a ideia nova chega e a anterior",
@@ -186,6 +209,13 @@ export const PROFILES: Record<Quadrant, Profile> = {
     ],
     phrases: ["Quem?", "Vamos envolver todo mundo.", "Como você se sente nisso?", "Boa energia."],
     careers: ["Relacionamento e vendas", "RH e cultura", "Atendimento e sucesso do cliente", "Comunicação e conteúdo"],
+    workHook:
+      "Você performa onde a confiança abre a porta. O que quase ninguém vê é o momento em que o clima deixa de ser suficiente e vira",
+    workTeaser: [
+      "decisão. Relacionamento, RH e conteúdo pedem a sua presença.",
+      "Gostar da pessoa não pode ser o único critério.",
+      "Existe um filtro simples para fechar sem forçar e sem se entregar cedo demais.",
+    ],
     feeling:
       "Você conquista com presença. Dá certo com o Dominante quando se sente visto e não atropelado. Com o Visionário a conversa vira mundo. Com o Detalhista o ajuste é ouro: um pede clima, o outro pede plano. Dois Comunicadores se entendem, e às vezes não fecham decisão.",
     hook: "Você lê o clima e conquista com presença. O que quase ninguém vê é o ponto em que empatia alta sem fronteira vira",

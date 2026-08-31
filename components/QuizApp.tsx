@@ -541,20 +541,13 @@ function Result({
             </span>
           ))}
         </div>
+        <CuriosityBlur hook={profile.workHook} lines={profile.workTeaser} />
       </article>
 
       <article className="mt-4 rounded-3xl border border-[var(--line)] bg-[var(--paper)] p-5">
         <h3 className="font-display text-2xl">No sentimento e na conquista</h3>
         <p className="mt-4 text-sm leading-relaxed text-[var(--muted)]">{profile.feeling}</p>
-      </article>
-
-      <article className="mt-4 rounded-3xl border border-[var(--line)] bg-[var(--paper)] p-5">
-        <p className="text-base leading-relaxed sm:text-lg">{profile.hook}</p>
-        <div className="locked-blur mt-3 space-y-2 text-sm leading-relaxed text-[var(--muted)]" aria-hidden="true">
-          {profile.teaser.map((line) => (
-            <p key={line}>{line}</p>
-          ))}
-        </div>
+        <CuriosityBlur hook={profile.hook} lines={profile.teaser} />
       </article>
 
       <OfferCard />
@@ -574,6 +567,19 @@ function Result({
         </button>
       </div>
     </main>
+  );
+}
+
+function CuriosityBlur({ hook, lines }: { hook: string; lines: string[] }) {
+  return (
+    <div className="mt-4">
+      <p className="text-sm leading-relaxed sm:text-base">{hook}</p>
+      <div className="locked-blur mt-2 space-y-2 text-sm leading-relaxed text-[var(--muted)]" aria-hidden="true">
+        {lines.map((line) => (
+          <p key={line}>{line}</p>
+        ))}
+      </div>
+    </div>
   );
 }
 
