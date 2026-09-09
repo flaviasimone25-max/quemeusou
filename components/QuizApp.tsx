@@ -22,10 +22,10 @@ type SavedState = {
   stage: Stage;
 };
 
-function loadState(): SavedState | null {
+function loadState(storageKey: string): SavedState | null {
   if (typeof window === "undefined") return null;
   try {
-    const raw = sessionStorage.getItem(STORAGE_KEY);
+    const raw = sessionStorage.getItem(storageKey);
     if (!raw) return null;
     return JSON.parse(raw) as SavedState;
   } catch {
@@ -33,7 +33,8 @@ function loadState(): SavedState | null {
   }
 }
 
-export function QuizApp() {
+export function QuizApp({ unlocked = false }: { unlocked?: boolean }) {
+  const storageKey = unlocked ? "quemeusou-completo-v1" : STORAGE_KEY;
   const [stage, setStage] = useState<Stage>("intro");
   const [name, setName] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
@@ -44,7 +45,7 @@ export function QuizApp() {
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    const saved = loadState();
+    const saved = loadState(storageKey);
     if (saved) {
       setName(saved.name ?? "");
       setWhatsapp(saved.whatsapp ?? "");
@@ -55,15 +56,15 @@ export function QuizApp() {
       if (nextStage) setStage(nextStage);
     }
     setHydrated(true);
-  }, []);
+  }, [storageKey]);
 
   useEffect(() => {
     if (!hydrated) return;
     sessionStorage.setItem(
-      STORAGE_KEY,
+      storageKey,
       JSON.stringify({ name, whatsapp, profession, index, answers, stage }),
     );
-  }, [name, whatsapp, profession, index, answers, stage, hydrated]);
+  }, [name, whatsapp, profession, index, answers, stage, hydrated, storageKey]);
 
   const scores = useMemo(() => computeScores(answers), [answers]);
   const result = useMemo(() => interpret(scores), [scores]);
@@ -73,7 +74,7 @@ export function QuizApp() {
   async function start() {
     setSending(true);
     try {
-      await submitLead({ name, whatsapp, profession });
+      if (!unlocked) await submitLead({ name, whatsapp, profession });
     } catch {
       /* segue o quiz mesmo se o Forms falhar */
     } finally {
@@ -113,7 +114,7 @@ export function QuizApp() {
   }
 
   function restart() {
-    sessionStorage.removeItem(STORAGE_KEY);
+    sessionStorage.removeItem(storageKey);
     setAnswers({});
     setIndex(0);
     setStage("intro");
@@ -124,6 +125,7 @@ export function QuizApp() {
       <div className="noise" />
       {stage === "intro" && (
         <Intro
+          unlocked={unlocked}
           name={name}
           whatsapp={whatsapp}
           profession={profession}
@@ -158,6 +160,7 @@ export function QuizApp() {
       )}
       {stage === "result" && (
         <Result
+          unlocked={unlocked}
           name={name.trim()}
           whatsapp={whatsapp}
           profession={profession}
@@ -170,6 +173,7 @@ export function QuizApp() {
 }
 
 function Intro({
+  unlocked,
   name,
   whatsapp,
   profession,
@@ -180,6 +184,7 @@ function Intro({
   onStart,
   canContinue,
 }: {
+  unlocked?: boolean;
   name: string;
   whatsapp: string;
   profession: string;
@@ -195,14 +200,18 @@ function Intro({
 
   return (
     <main className="relative mx-auto flex min-h-screen w-full max-w-3xl flex-col justify-center px-5 py-12">
-      <p className="rise text-xs tracking-[0.35em] text-[var(--gold)] uppercase">Trinus · Dominância cerebral</p>
+      <p className="rise text-xs tracking-[0.35em] text-[var(--gold)] uppercase">
+        {unlocked ? "Trinus · Versão completa" : "Trinus · Dominância cerebral"}
+      </p>
       <h1 className="font-display rise mt-5 text-5xl leading-[0.95] sm:text-7xl" style={{ animationDelay: "80ms" }}>
         Quem eu sou?
       </h1>
       <p className="rise mt-6 max-w-xl text-lg leading-relaxed text-[var(--muted)]" style={{ animationDelay: "140ms" }}>
         Não é certo ou errado. É o mapa de como o seu cérebro prefere pensar, decidir e se relacionar.
         No final, você encontra o animal do seu perfil, com características, pontos fortes e o que vale treinar.
-        A leitura completa de carreira e sentimento acontece na consultoria de 1 hora.
+        {unlocked
+          ? " Esta versão entrega a leitura completa de carreira e sentimento, sem bloqueio."
+          : " A leitura completa de carreira e sentimento acontece na consultoria de 1 hora."}
       </p>
       <div className="rise mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4" style={{ animationDelay: "200ms" }}>
         {(["SE", "IE", "SD", "ID"] as Quadrant[]).map((key) => (
@@ -264,7 +273,9 @@ function Intro({
         {sending ? "Enviando..." : "Começar o mapa · 12 etapas"}
       </button>
       <p className="mt-4 text-xs text-white/35">
-        Usamos nome, WhatsApp e profissão para a consultoria Quem Eu Sou.
+        {unlocked
+          ? "Usamos nome, WhatsApp e profissão só para personalizar o seu resultado."
+          : "Usamos nome, WhatsApp e profissão para a consultoria Quem Eu Sou."}
       </p>
     </main>
   );
@@ -399,12 +410,14 @@ function QuadFill({ label, color, percent }: { label: string; color: string; per
 }
 
 function Result({
+  unlocked,
   name,
   whatsapp,
   profession,
   result,
   onRestart,
 }: {
+  unlocked?: boolean;
   name: string;
   whatsapp: string;
   profession: string;
@@ -446,9 +459,10 @@ function Result({
   }
 
   useEffect(() => {
+    if (unlocked) return;
     persistResult().catch(() => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [unlocked]);
 
   async function openCheckout(event: { preventDefault: () => void }) {
     event.preventDefault();
@@ -600,16 +614,18 @@ function Result({
             </span>
           ))}
         </div>
-        <CuriosityBlur hook={profile.workHook} lines={profile.workTeaser} />
+        <CuriosityBlur unlocked={unlocked} hook={profile.workHook} lines={profile.workTeaser} />
       </article>
 
       <article className="mt-4 rounded-3xl border border-[var(--line)] bg-[var(--paper)] p-5">
         <h3 className="font-display text-2xl">No sentimento e na conquista</h3>
         <p className="mt-4 text-sm leading-relaxed text-[var(--muted)]">{profile.feeling}</p>
-        <CuriosityBlur hook={profile.hook} lines={profile.teaser} />
+        <CuriosityBlur unlocked={unlocked} hook={profile.hook} lines={profile.teaser} />
       </article>
 
-      <OfferCard name={name} whatsapp={whatsapp} resultId={resultId} onCheckout={openCheckout} />
+      {!unlocked ? (
+        <OfferCard name={name} whatsapp={whatsapp} resultId={resultId} onCheckout={openCheckout} />
+      ) : null}
 
       <div className="mt-8 flex flex-wrap gap-3">
         <button
@@ -629,7 +645,28 @@ function Result({
   );
 }
 
-function CuriosityBlur({ hook, lines }: { hook: string; lines: string[] }) {
+function CuriosityBlur({
+  unlocked,
+  hook,
+  lines,
+}: {
+  unlocked?: boolean;
+  hook: string;
+  lines: string[];
+}) {
+  if (unlocked) {
+    return (
+      <div className="mt-4 space-y-2 text-sm leading-relaxed sm:text-base">
+        <p>{hook}</p>
+        {lines.map((line) => (
+          <p key={line} className="text-[var(--muted)]">
+            {line}
+          </p>
+        ))}
+      </div>
+    );
+  }
+
   return (
     <div className="mt-4">
       <p className="text-sm leading-relaxed sm:text-base">{hook}</p>
