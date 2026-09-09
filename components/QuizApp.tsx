@@ -426,6 +426,7 @@ function Result({
 }) {
   const profile = result.primary;
   const [copied, setCopied] = useState(false);
+  const [pdfBusy, setPdfBusy] = useState(false);
   const [resultId, setResultId] = useState<string | null>(null);
   const saveRef = useRef<Promise<string> | null>(null);
 
@@ -487,6 +488,44 @@ function Result({
     await navigator.clipboard.writeText(text);
     setCopied(true);
     window.setTimeout(() => setCopied(false), 2000);
+  }
+
+  async function downloadPdf() {
+    setPdfBusy(true);
+    try {
+      const response = await fetch("/api/pdf", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          whatsapp,
+          profession,
+          scores: result.scores,
+          percents: result.percents,
+          primary: result.primary.id,
+          secondary: result.secondary.id,
+        }),
+      });
+      if (!response.ok) throw new Error("falha ao gerar PDF");
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      const slug = name
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, "")
+        .slice(0, 40) || "perfil";
+      link.href = url;
+      link.download = `quem-eu-sou-${slug}.pdf`;
+      link.click();
+      URL.revokeObjectURL(url);
+    } catch {
+      window.alert("Não foi possível gerar o PDF agora. Tente de novo.");
+    } finally {
+      setPdfBusy(false);
+    }
   }
 
   return (
@@ -634,6 +673,15 @@ function Result({
         >
           {copied ? "Copiado" : "Compartilhar"}
         </button>
+        {unlocked ? (
+          <button
+            onClick={downloadPdf}
+            disabled={pdfBusy}
+            className="rounded-full border border-[var(--gold)] px-6 py-3 text-sm font-semibold text-[var(--gold)] disabled:opacity-50"
+          >
+            {pdfBusy ? "Gerando PDF..." : "PDF"}
+          </button>
+        ) : null}
         <button
           onClick={onRestart}
           className="rounded-full border border-white/15 px-6 py-3 text-sm text-[var(--muted)] hover:text-white"
