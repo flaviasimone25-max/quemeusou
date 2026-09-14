@@ -101,3 +101,77 @@ input {
   pointer-events: none;
 }
 
+.result-fold {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  border-radius: 1.75rem;
+}
+
+.result-fold + .result-fold,
+.result-fold-locked + .result-fold,
+.space-y-4 > .result-fold {
+  margin-top: 0;
+}
+
+.result-fold > summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 1.25rem 1.35rem 1.2rem;
+}
+
+.result-fold > summary::-webkit-details-marker {
+  display: none;
+}
+
+.result-fold-head,
+.result-fold > summary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.result-fold-head {
+  padding: 1.25rem 1.35rem 0.35rem;
+}
+
+.result-fold-kicker {
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.result-fold-title {
+  font-family: var(--font-fraunces), ui-serif, Georgia, serif;
+  font-size: 1.45rem;
+  line-height: 1.25;
+}
+
+.result-fold > summary .result-fold-title::after {
+  content: "";
+  display: inline-block;
+  width: 0.45rem;
+  height: 0.45rem;
+  margin-left: 0.7rem;
+  margin-bottom: 0.15rem;
+  border-right: 2px solid var(--gold);
+  border-bottom: 2px solid var(--gold);
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+  vertical-align: middle;
+}
+
+.result-fold[open] > summary .result-fold-title::after {
+  transform: rotate(-135deg);
+  margin-bottom: -0.1rem;
+}
+
+.result-fold[open] > summary {
+  border-bottom: 1px solid var(--line);
+}
+
+.result-fold-body {
+  padding: 1.25rem 1.35rem 1.6rem;
+}
+

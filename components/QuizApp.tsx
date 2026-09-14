@@ -2,11 +2,12 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { QUESTIONS } from "@/lib/questions";
-import { PROFILES, QUADRANT_META } from "@/lib/profiles";
+import { PROFILES } from "@/lib/profiles";
 import { computeScores, interpret } from "@/lib/score";
 import { OFFER_CTA, OFFER_PRICE, WHATSAPP_URL } from "@/lib/offer";
 import { buildCheckoutUrl } from "@/lib/kiwify";
 import { submitLead } from "@/lib/form";
+import { ResultReport } from "@/components/ResultReport";
 import type { Quadrant, Question } from "@/lib/types";
 
 type Stage = "intro" | "quiz" | "reveal" | "result";
@@ -210,8 +211,8 @@ function Intro({
         Não é certo ou errado. É o mapa de como o seu cérebro prefere pensar, decidir e se relacionar.
         No final, você encontra o animal do seu perfil, com características, pontos fortes e o que vale treinar.
         {unlocked
-          ? " Esta versão entrega a leitura completa de carreira e sentimento, sem bloqueio."
-          : " A leitura completa de carreira e sentimento acontece na consultoria de 1 hora."}
+          ? " Esta versão entrega a devolutiva completa — comunicação, carreira, liderança, vendas, combinações e Perfil Camaleão — sem bloqueio."
+          : " A leitura completa de comunicação, liderança, ponto cego e Perfil Camaleão acontece na consultoria de 1 hora."}
       </p>
       <div className="rise mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4" style={{ animationDelay: "200ms" }}>
         {(["SE", "IE", "SD", "ID"] as Quadrant[]).map((key) => (
@@ -561,106 +562,12 @@ function Result({
         </p>
       )}
 
-      <p className="mt-8 max-w-3xl text-base leading-relaxed text-[var(--text)]/90">{profile.summary}</p>
+      <p className="mt-8 max-w-3xl text-sm leading-relaxed text-[var(--muted)]">
+        {profile.animal} é o recurso didático desta leitura. O que segue descreve tendências de pensamento, decisão e
+        relação — não um diagnóstico e não uma sentença.
+      </p>
 
-      <div className="mt-8 flex flex-wrap gap-2">
-        {profile.traits.map((trait) => (
-          <span
-            key={trait}
-            className="rounded-full border border-white/10 px-3 py-1 text-sm"
-            style={{ background: profile.colorSoft, color: profile.color }}
-          >
-            {trait}
-          </span>
-        ))}
-      </div>
-
-      <div className="mt-10 grid gap-4 sm:grid-cols-2">
-        <article className="rounded-3xl border border-[var(--line)] bg-[var(--paper)] p-5">
-          <h3 className="font-display text-2xl">Pontos fortes</h3>
-          <ul className="mt-4 space-y-3 text-sm leading-relaxed text-[var(--muted)]">
-            {profile.strengths.map((item) => (
-              <li key={item} className="flex gap-2">
-                <span style={{ color: profile.color }}>▸</span>
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        </article>
-        <article className="rounded-3xl border border-[var(--line)] bg-[var(--paper)] p-5">
-          <h3 className="font-display text-2xl">Pontos a melhorar</h3>
-          <ul className="mt-4 space-y-3 text-sm leading-relaxed text-[var(--muted)]">
-            {profile.improve.map((item) => (
-              <li key={item} className="flex gap-2">
-                <span className="text-[var(--gold)]">▸</span>
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        </article>
-      </div>
-
-      <article className="mt-4 rounded-3xl border border-[var(--line)] bg-[var(--paper)] p-5">
-        <h3 className="font-display text-2xl">Frases que soam a você</h3>
-        <div className="mt-4 flex flex-wrap gap-2">
-          {profile.phrases.map((phrase) => (
-            <span key={phrase} className="rounded-full border border-white/10 px-3 py-1.5 text-sm text-[var(--muted)]">
-              “{phrase}”
-            </span>
-          ))}
-        </div>
-      </article>
-
-      <article className="mt-8 rounded-3xl border border-[var(--line)] bg-[var(--paper)] p-5">
-        <h3 className="font-display text-2xl">Seu mapa cerebral</h3>
-        <div className="mt-6 space-y-4">
-          {result.ranked.map((row) => {
-            const meta = QUADRANT_META[row.key];
-            const animal = PROFILES[row.key];
-            return (
-              <div key={row.key}>
-                <div className="mb-1.5 flex items-center justify-between text-sm">
-                  <span>
-                    {animal.title} · {meta.axis}
-                  </span>
-                  <span className="tabular-nums text-[var(--muted)]">
-                    {row.value} · {result.percents[row.key]}%
-                  </span>
-                </div>
-                <div className="h-2.5 overflow-hidden rounded-full bg-white/10">
-                  <div
-                    className="h-full rounded-full"
-                    style={{
-                      width: `${result.percents[row.key]}%`,
-                      background: meta.color,
-                      animation: "fillbar 0.9s ease both",
-                    }}
-                  />
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </article>
-
-      <article className="mt-4 rounded-3xl border border-[var(--line)] bg-[var(--paper)] p-5">
-        <h3 className="font-display text-2xl">Onde você brilha no trabalho</h3>
-        <p className="mt-2 text-sm text-[var(--muted)]">Ramos em que o perfil {profile.title} costuma performar.</p>
-        <div className="mt-4 flex flex-wrap gap-2">
-          {profile.careers.map((item) => (
-            <span key={item} className="rounded-full border border-white/10 px-3 py-1.5 text-sm">
-              {item}
-            </span>
-          ))}
-        </div>
-        <CuriosityBlur unlocked={unlocked} hook={profile.workHook} lines={profile.workTeaser} />
-      </article>
-
-      <article className="mt-4 rounded-3xl border border-[var(--line)] bg-[var(--paper)] p-5">
-        <h3 className="font-display text-2xl">No sentimento e na conquista</h3>
-        <p className="mt-4 text-sm leading-relaxed text-[var(--muted)]">{profile.feeling}</p>
-        <CuriosityBlur unlocked={unlocked} hook={profile.hook} lines={profile.teaser} />
-      </article>
+      <ResultReport unlocked={unlocked} name={name} result={result} />
 
       {!unlocked ? (
         <OfferCard name={name} whatsapp={whatsapp} resultId={resultId} onCheckout={openCheckout} />
@@ -693,49 +600,6 @@ function Result({
   );
 }
 
-function CuriosityBlur({
-  unlocked,
-  hook,
-  lines,
-}: {
-  unlocked?: boolean;
-  hook: string;
-  lines: string[];
-}) {
-  if (unlocked) {
-    return (
-      <div className="mt-4 space-y-2 text-sm leading-relaxed sm:text-base">
-        <p>{hook}</p>
-        {lines.map((line) => (
-          <p key={line} className="text-[var(--muted)]">
-            {line}
-          </p>
-        ))}
-      </div>
-    );
-  }
-
-  return (
-    <div className="mt-4">
-      <p className="text-sm leading-relaxed sm:text-base">{hook}</p>
-      <div className="relative mt-2 overflow-hidden rounded-xl pb-14">
-        <div className="locked-blur space-y-2 pr-2 text-sm leading-relaxed text-[var(--muted)]" aria-hidden="true">
-          {lines.map((line) => (
-            <p key={line}>{line}</p>
-          ))}
-        </div>
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0b1018] via-[#0b1018]/50 to-transparent" />
-        <a
-          href="#saiba-mais"
-          className="absolute right-2 bottom-2 z-10 max-w-[calc(100%-1rem)] rounded-full bg-[var(--gold)] px-3 py-2 text-center text-[11px] font-semibold tracking-wide text-[#1a1408] sm:px-4 sm:text-xs"
-        >
-          🔒 DESBLOQUEAR MINHA ANÁLISE
-        </a>
-      </div>
-    </div>
-  );
-}
-
 function OfferCard({
   name,
   whatsapp,
@@ -755,20 +619,22 @@ function OfferCard({
       <p className="font-display text-3xl leading-tight sm:text-4xl">Saiba mais</p>
       <div className="mt-4 max-w-2xl space-y-4 text-sm leading-relaxed text-[var(--muted)]">
         <p>
-          Você já descobriu qual é o seu perfil.{" "}
-          <strong className="font-semibold text-[var(--text)]">Agora descubra como usá-lo a seu favor.</strong>
+          Você já se reconheceu na essência.{" "}
+          <strong className="font-semibold text-[var(--text)]">
+            Agora descubra o que essa predominância faz com a sua comunicação, a sua liderança e os seus resultados.
+          </strong>
         </p>
         <p>
-          Seu comportamento influencia suas decisões, sua comunicação, seus relacionamentos e, principalmente, os seus
-          resultados.
+          Na análise completa entram o ponto cego, o comportamento sob pressão, como as pessoas realmente decodificam a
+          sua fala, a influência do segundo perfil, as compatibilidades e o Perfil Camaleão — o repertório que impede o
+          mapa de virar desculpa.
         </p>
         <p>
           Na consultoria, você recebe seu{" "}
           <strong className="font-semibold text-[var(--text)]">
             Teste de Perfil completo + análise personalizada + consultoria individual
           </strong>
-          , para entender seus pontos fortes, seus padrões de comportamento e o que precisa desenvolver para alcançar
-          seus objetivos.
+          , para traduzir tendência em decisão, venda, relação e desenvolvimento.
         </p>
         <p className="font-semibold text-[var(--text)]">
           Não é sobre mudar quem você é.
