@@ -211,7 +211,7 @@ function Intro({
         Não é certo ou errado. É o mapa de como o seu cérebro prefere pensar, decidir e se relacionar.
         No final, você encontra o animal do seu perfil, com características, pontos fortes e o que vale treinar.
         {unlocked
-          ? " Esta versão entrega a devolutiva completa — comunicação, carreira, liderança, vendas, combinações e Perfil Camaleão — sem bloqueio."
+          ? " Esta versão entrega a devolutiva completa: comunicação, carreira, liderança, vendas, combinações e Perfil Camaleão, sem bloqueio."
           : " A leitura completa de comunicação, liderança, ponto cego e Perfil Camaleão acontece na consultoria de 1 hora."}
       </p>
       <div className="rise mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4" style={{ animationDelay: "200ms" }}>
@@ -564,7 +564,7 @@ function Result({
 
       <p className="mt-8 max-w-3xl text-sm leading-relaxed text-[var(--muted)]">
         {profile.animal} é o recurso didático desta leitura. O que segue descreve tendências de pensamento, decisão e
-        relação — não um diagnóstico e não uma sentença.
+        relação, não um diagnóstico e não uma sentença.
       </p>
 
       <ResultReport unlocked={unlocked} name={name} result={result} />
@@ -626,7 +626,7 @@ function OfferCard({
         </p>
         <p>
           Na análise completa entram o ponto cego, o comportamento sob pressão, como as pessoas realmente decodificam a
-          sua fala, a influência do segundo perfil, as compatibilidades e o Perfil Camaleão — o repertório que impede o
+          sua fala, a influência do segundo perfil, as compatibilidades e o Perfil Camaleão, o repertório que impede o
           mapa de virar desculpa.
         </p>
         <p>

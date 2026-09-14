@@ -49,7 +49,7 @@ const combos: Record<string, ComboAnalysis> = {
   "SE-ID": {
     title: "Corte com pulso humano",
     traits:
-      "A base é resultado. O segundo traço traz leitura de gente. Você ainda vai ao ponto, mas algo em você registra o clima, mesmo quando decide ignorá-lo. Essa combinação produz líderes e vendedores potentes, e um conflito clássico: fechar agora ou cuidar da adesão. A ordem importa: o Dominante manda; o Comunicador modula — quando você deixa.",
+      "A base é resultado. O segundo traço traz leitura de gente. Você ainda vai ao ponto, mas algo em você registra o clima, mesmo quando decide ignorá-lo. Essa combinação produz líderes e vendedores potentes, e um conflito clássico: fechar agora ou cuidar da adesão. A ordem importa: o Dominante manda; o Comunicador modula, quando você deixa.",
     strengths:
       "Fecha e, quando quer, conquista. Raro: objetividade que ainda sabe que confiança é variável de performance. Em venda e gestão, isso diferencia quem só cobra de quem também leva a sala.",
     innerConflict:
@@ -71,7 +71,7 @@ const combos: Record<string, ComboAnalysis> = {
   "IE-SE": {
     title: "Método que quer o jogo",
     traits:
-      "A predominância é cuidado e sequência. O segundo traço introduz fome de resultado: você não quer só o processo certo, quer que ele ganhe. Diferente de Dominante com Detalhista, aqui o chão vem primeiro e o corte entra como irritação produtiva contra o próprio adiamento. Você constrói — e se cobra por ainda não ter largado.",
+      "A predominância é cuidado e sequência. O segundo traço introduz fome de resultado: você não quer só o processo certo, quer que ele ganhe. Diferente de Dominante com Detalhista, aqui o chão vem primeiro e o corte entra como irritação produtiva contra o próprio adiamento. Você constrói, e se cobra por ainda não ter largado.",
     strengths:
       "Qualidade com intenção de placar. Menos paralisia que o Detalhista sem segundo traço, mais padrão que o Dominante sem contrapeso. Entrega que sobrevive a auditoria e a prazo.",
     innerConflict:
@@ -101,7 +101,7 @@ const combos: Record<string, ComboAnalysis> = {
     decision:
       "Pede piloto, não salto. Se o piloto não for permitido, a visão vira ressentimento. Se o piloto não tiver cerca, o Detalhista interno não dorme.",
     communication:
-      "Cuidadosa, com trechos de quadro maior. Pode parecer indecisa entre “vamos mudar” e “vamos manter”. Nomear os dois tempos — preservar e experimentar — clareia.",
+      "Cuidadosa, com trechos de quadro maior. Pode parecer indecisa entre “vamos mudar” e “vamos manter”. Nomear os dois tempos, preservar e experimentar, clareia.",
     work: "Melhoria contínua, produto, qualidade com inovação. Risco: nunca lançar ou lançar sem o próprio padrão. O meio-termo é o ofício desta combinação.",
     leadership:
       "Evolui o sistema. O time precisa de experimentos com cerca, não de revolução na sexta. Você lidera bem quem respeita o chão e ainda quer o próximo desenho.",
@@ -128,7 +128,7 @@ const combos: Record<string, ComboAnalysis> = {
     leadership:
       "Justa, próxima, pouco confrontativa. Precisa de alguém que feche o difícil, ou de um rito próprio de encerramento. O time ama o cuidado e sente falta de decisão difícil.",
     relating:
-      "Leal, previsível, sensível a tom. Conflito tardio. Quando explode, costuma ser depois de ter engolido demais — o que confunde quem achava que estava tudo bem.",
+      "Leal, previsível, sensível a tom. Conflito tardio. Quando explode, costuma ser depois de ter engolido demais, o que confunde quem achava que estava tudo bem.",
     pressure:
       "Mais controle e mais apaziguamento. Cansaço duplo: segurar a planilha e o clima. Sob pressão, você some em tarefa ou em cuidado, e o problema continua.",
     growth:
@@ -137,7 +137,7 @@ const combos: Record<string, ComboAnalysis> = {
   "SD-SE": {
     title: "Visão que quer placar",
     traits:
-      "A predominância é futuro. O segundo traço introduz fome de evidência. Diferente de Dominante com Águia, aqui o quadro vem primeiro e o número entra como exigência para a visão não ficar só bonita. Potência alta, impaciência com a própria dispersão. Você se irrita quando a ideia não colhe — e ainda assim pode pivotar antes da colheita.",
+      "A predominância é futuro. O segundo traço introduz fome de evidência. Diferente de Dominante com Águia, aqui o quadro vem primeiro e o número entra como exigência para a visão não ficar só bonita. Potência alta, impaciência com a própria dispersão. Você se irrita quando a ideia não colhe, e ainda assim pode pivotar antes da colheita.",
     strengths:
       "Inova com intenção de ganhar. Menos poesia solta, mais virada. Em novos negócios e produto, essa ordem (sentido, depois placar) gera adesão e cobrança.",
     innerConflict:
@@ -150,7 +150,7 @@ const combos: Record<string, ComboAnalysis> = {
     leadership:
       "Convida ao futuro e mede. O time precisa de um jogo por vez. Sem isso, a inspiração vira meta móvel.",
     relating:
-      "Estimula quem constrói. Corta quem só contempla. Parceiros sentem-se parte de um projeto — até o projeto mudar sem ritual de encerramento.",
+      "Estimula quem constrói. Corta quem só contempla. Parceiros sentem-se parte de um projeto, até o projeto mudar sem ritual de encerramento.",
     pressure:
       "Cobra o placar ou foge para um quadro ainda maior. Os dois extremos abandonam a última milha. Crise pede aterrissagem, não mais horizonte.",
     growth:
@@ -203,7 +203,7 @@ const combos: Record<string, ComboAnalysis> = {
   "ID-SE": {
     title: "Vínculo que aprendeu a fechar",
     traits:
-      "A predominância é gente. O segundo traço introduz corte. Diferente de Dominante com Comunicador, aqui o calor vem primeiro e a objetividade entra como irritação útil contra o próprio rodeio. Vendedores e líderes humanos que, em dias bons, também fecham. A ordem importa: primeiro a pessoa; depois o placar — quando o segundo traço sobe.",
+      "A predominância é gente. O segundo traço introduz corte. Diferente de Dominante com Comunicador, aqui o calor vem primeiro e a objetividade entra como irritação útil contra o próprio rodeio. Vendedores e líderes humanos que, em dias bons, também fecham. A ordem importa: primeiro a pessoa; depois o placar, quando o segundo traço sobe.",
     strengths:
       "Abre porta e, quando o segundo traço sobe, pede o sim. Raro: empatia com fechamento. Em comercial e gestão de clima com meta, essa combinação desarma e conclui.",
     innerConflict:
@@ -211,7 +211,7 @@ const combos: Record<string, ComboAnalysis> = {
     decision:
       "Espera adesão, depois corta. Se a adesão não vem, sofre. Se corta cedo, se culpa. O critério precisa incluir vínculo e prazo, senão a decisão vira humor relacional.",
     communication:
-      "Quente, depois objetiva. Ou o contrário, quando a paciência acaba. Avisar a ordem — “quero te ouvir e, em seguida, vamos decidir” — impede que o corte pareça traição.",
+      "Quente, depois objetiva. Ou o contrário, quando a paciência acaba. Avisar a ordem, “quero te ouvir e, em seguida, vamos decidir”, impede que o corte pareça traição.",
     work: "Relação com meta. Cultura com número. Atendimento que precisa converter. Risco: oscilação de tom. O time ou o cliente não sabe se hoje é colo ou placar.",
     leadership:
       "Inclui e, em ciclos, cobra. O time precisa de previsibilidade de qual fase é essa. Sem aviso, o segundo traço vira surpresa agressiva.",
@@ -225,7 +225,7 @@ const combos: Record<string, ComboAnalysis> = {
   "ID-IE": {
     title: "Presença com plano",
     traits:
-      "Gente primeiro, método por baixo. Você lê o clima e, em seguida, quer previsibilidade para proteger o vínculo. Combinação de cuidado estruturado: menos caos afetivo que o Comunicador sem segundo traço. Você quer que as pessoas estejam bem — e que o combinado exista.",
+      "Gente primeiro, método por baixo. Você lê o clima e, em seguida, quer previsibilidade para proteger o vínculo. Combinação de cuidado estruturado: menos caos afetivo que o Comunicador sem segundo traço. Você quer que as pessoas estejam bem, e que o combinado exista.",
     strengths:
       "Acolhimento com rotina. Relação que não depende só de humor. Em educação, atendimento e cultura, você cria ambientes onde gente e processo se sustentam.",
     innerConflict:
@@ -247,7 +247,7 @@ const combos: Record<string, ComboAnalysis> = {
   "ID-SD": {
     title: "Calor com horizonte",
     traits:
-      "Vínculo e visão. A predominância conecta; o segundo traço amplia. É a combinação mais fluida em conversa e mobilização, e uma das mais frágeis em fechamento. O mundo vira possível. A terça continua sem dono se ninguém ancorar. A ordem importa: gente primeiro, futuro em seguida — o placar e o processo ficam em terceiro, a menos que você os convoque.",
+      "Vínculo e visão. A predominância conecta; o segundo traço amplia. É a combinação mais fluida em conversa e mobilização, e uma das mais frágeis em fechamento. O mundo vira possível. A terça continua sem dono se ninguém ancorar. A ordem importa: gente primeiro, futuro em seguida, o placar e o processo ficam em terceiro, a menos que você os convoque.",
     strengths:
       "Adesão a um futuro. Marca pessoal, comunidade, venda por sentido. Poucas pessoas geram tanta vontade de pertencer a algo que ainda está sendo inventado.",
     innerConflict:

@@ -56,10 +56,10 @@ export function ResultReport({
         </div>
         {!unlocked ? (
           <p className="mt-6 rounded-2xl border border-[var(--gold)]/25 bg-black/20 px-4 py-3 text-sm leading-relaxed text-[var(--muted)]">
-            {name}, esta é a camada de identificação. O restante desta devolutiva — como o mundo acessa você, o
+            {name}, esta é a camada de identificação. O restante desta devolutiva, como o mundo acessa você, o
             descompasso entre o que você pensa que fala e o que chega no outro, liderança, vendas, pressão, ponto cego,
             a influência de <strong className="text-[var(--text)]">{labelOf(secondary.id)}</strong>, compatibilidades e o
-            Perfil Camaleão — está na análise completa.
+            Perfil Camaleão, está na análise completa.
           </p>
         ) : null}
       </article>
@@ -68,8 +68,8 @@ export function ResultReport({
         <p className="text-[11px] uppercase tracking-[0.28em] text-[var(--gold)]">Seu mapa</p>
         <h2 className="font-display mt-2 text-2xl">Como os quatro traços se distribuem</h2>
         <p className="mt-2 text-sm text-[var(--muted)]">
-          O perfil predominante não apaga os outros. Ele descreve a porta de entrada mais frequente. O segundo traço —{" "}
-          {labelOf(secondary.id)} — modula o primeiro.
+          O perfil predominante não apaga os outros. Ele descreve a porta de entrada mais frequente. O segundo traço,{" "}
+          {labelOf(secondary.id)}, modula o primeiro.
         </p>
         <div className="mt-6 space-y-4">
           {result.ranked.map((row) => {
@@ -122,7 +122,7 @@ export function ResultReport({
         open={Boolean(unlocked)}
         kicker="Comunicação"
         title="Como o mundo acessa você"
-        teaser="Há uma forma precisa de te abordar — e um conjunto de gestos que fecha a porta na primeira frase. Dados, sequência, vínculo ou visão: cada predominância abre por uma porta diferente."
+        teaser="Há uma forma precisa de te abordar, e um conjunto de gestos que fecha a porta na primeira frase. Dados, sequência, vínculo ou visão: cada predominância abre por uma porta diferente."
       >
         <p className="text-sm leading-relaxed sm:text-base">{analysis.worldAccess.intro}</p>
         <dl className="mt-5 space-y-4">
@@ -148,7 +148,7 @@ export function ResultReport({
         unlocked={unlocked}
         open={Boolean(unlocked)}
         kicker="Comunicação"
-        title="Como você fala — e como isso pode ser ouvido"
+        title="Como você fala e como isso pode ser ouvido"
         teaser="A forma como você acredita que está se comunicando e a forma como isso chega no outro quase nunca coincidem por completo. Essa diferença explica briga, silêncio e venda perdida."
       >
         {analysis.communication.style.map((paragraph) => (
@@ -173,7 +173,7 @@ export function ResultReport({
         open={Boolean(unlocked)}
         kicker="Relacionamentos"
         title="Como você se conecta"
-        teaser="Amizade, par, família, grupo, confiança e conflito seguem a mesma lógica da sua porta de entrada — com nuances que só aparecem quando a leitura sai do rótulo."
+        teaser="Amizade, par, família, grupo, confiança e conflito seguem a mesma lógica da sua porta de entrada, com nuances que só aparecem quando a leitura sai do rótulo."
       >
         {analysis.relating.map((paragraph) => (
           <p key={paragraph.slice(0, 40)} className="mt-3 text-sm leading-relaxed sm:text-base first:mt-0">
@@ -199,7 +199,7 @@ export function ResultReport({
         unlocked={unlocked}
         kicker="Liderança"
         title="Você liderando pessoas"
-        teaser="Delegar, cobrar, reconhecer, decidir, reagir ao erro e conduzir conflito: o estilo natural aparece. O que a equipe valoriza — e o que talvez não te diga — também."
+        teaser="Delegar, cobrar, reconhecer, decidir, reagir ao erro e conduzir conflito: o estilo natural aparece. O que a equipe valoriza, e o que talvez não te diga, também."
       >
         {analysis.asLeader.body.map((paragraph) => (
           <p key={paragraph.slice(0, 40)} className="mt-3 text-sm leading-relaxed sm:text-base first:mt-0">
@@ -228,7 +228,7 @@ export function ResultReport({
         unlocked={unlocked}
         kicker="Vendas"
         title="Vendas e negociação"
-        teaser="Seu estilo natural de venda tem vantagem e erro recorrente. O cliente com quem flui e o que mais desafia seguem a mesma lógica do seu processamento — e dá para adaptar a fala aos outros três perfis."
+        teaser="Seu estilo natural de venda tem vantagem e erro recorrente. O cliente com quem flui e o que mais desafia seguem a mesma lógica do seu processamento, e dá para adaptar a fala aos outros três perfis."
       >
         {analysis.sales.body.map((paragraph) => (
           <p key={paragraph.slice(0, 40)} className="mt-3 text-sm leading-relaxed sm:text-base first:mt-0">
@@ -265,7 +265,7 @@ export function ResultReport({
       <Layer
         unlocked={unlocked}
         kicker="Forças e atenção"
-        title="Como as forças aparecem — e onde começam a prejudicar"
+        title="Como as forças aparecem e onde começam a prejudicar"
         teaser="Não é lista de adjetivos. É o mecanismo: onde a característica ajuda o resultado e em que contexto a mesma energia vira atrito."
       >
         <h3 className="font-display text-xl">Pontos fortes na prática</h3>
@@ -286,7 +286,7 @@ export function ResultReport({
         unlocked={unlocked}
         kicker="Ponto cego"
         title="O que talvez você ainda não perceba"
-        teaser="Há um padrão que você raramente nomeia e que as pessoas ao redor já sentem. Esta é, em geral, a parte da leitura que mais incomoda — e a que mais destrava."
+        teaser="Há um padrão que você raramente nomeia e que as pessoas ao redor já sentem. Esta é, em geral, a parte da leitura que mais incomoda, e a que mais destrava."
       >
         {analysis.blindSpot.map((paragraph) => (
           <p key={paragraph.slice(0, 40)} className="mt-3 text-sm leading-relaxed sm:text-base first:mt-0">
@@ -349,7 +349,7 @@ export function ResultReport({
       >
         <p className="text-sm leading-relaxed sm:text-base">
           Perfis semelhantes facilitam o idioma e podem potencializar o mesmo ponto cego. Perfis diferentes geram mais
-          atrito no início e, com método, grande complementaridade. Compatibilidade descreve facilidade natural — não
+          atrito no início e, com método, grande complementaridade. Compatibilidade descreve facilidade natural, não
           sentença sobre quem pode ou não estar na sua vida.
         </p>
         <div className="mt-6 space-y-4">
@@ -422,7 +422,7 @@ function ComboBody({
       {dual ? (
         <p className="rounded-2xl border border-[var(--line)] bg-black/20 px-4 py-3 text-sm leading-relaxed">
           Dupla predominância: os dois traços pesam igual. A leitura abaixo usa {labelOf(primary)} como âncora e{" "}
-          {labelOf(secondary)} como segundo motor, para mostrar como um modula o outro — não para declarar um vencedor.
+          {labelOf(secondary)} como segundo motor, para mostrar como um modula o outro, não para declarar um vencedor.
         </p>
       ) : close ? (
         <p className="rounded-2xl border border-[var(--line)] bg-black/20 px-4 py-3 text-sm leading-relaxed">
@@ -540,7 +540,7 @@ function Layer({
         <div className="locked-blur mt-4 space-y-3 pr-1 text-sm leading-relaxed text-[var(--muted)]" aria-hidden="true">
           <p>
             A leitura completa descreve o mecanismo por trás do comportamento, não o rótulo. Entra o como, o porquê e o
-            efeito no resultado — com nuance suficiente para empresários, líderes e vendedores se reconhecerem sem
+            efeito no resultado, com nuance suficiente para empresários, líderes e vendedores se reconhecerem sem
             virar horóscopo.
           </p>
           <p>
