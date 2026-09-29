@@ -54,20 +54,6 @@ function matchesQuery(row: Row, query: string) {
   return dateHaystack(row.createdAt).includes(needle);
 }
 
-type Row = {
-  id: string;
-  createdAt: string;
-  name: string;
-  whatsapp: string;
-  profession: string;
-  primary: string;
-  title: string;
-  animal: string;
-  percents: Scores;
-  paid: boolean;
-  email: string;
-};
-
 export default function AdminPage() {
   const [password, setPassword] = useState("");
   const [authed, setAuthed] = useState(false);
