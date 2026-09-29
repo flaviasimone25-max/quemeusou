@@ -1,10 +1,58 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { brazilianPhone } from "@/lib/phone";
 import { PROFILES } from "@/lib/profiles";
 import { rankedByPercent } from "@/lib/score";
 import type { Scores } from "@/lib/types";
+
+type Row = {
+  id: string;
+  createdAt: string;
+  name: string;
+  whatsapp: string;
+  profession: string;
+  primary: string;
+  title: string;
+  animal: string;
+  percents: Scores;
+  paid: boolean;
+  email: string;
+};
+
+function fold(value: string) {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+}
+
+function dateHaystack(iso: string) {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return "";
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = String(date.getFullYear());
+  return fold(
+    [
+      `${day}/${month}/${year}`,
+      `${day}/${month}`,
+      `${month}/${year}`,
+      year,
+      date.toLocaleString("pt-BR"),
+      date.toLocaleDateString("pt-BR", { day: "numeric", month: "long", year: "numeric" }),
+      iso.slice(0, 10),
+    ].join(" "),
+  );
+}
+
+function matchesQuery(row: Row, query: string) {
+  const needle = fold(query).replace(/[-.]/g, "/");
+  if (!needle) return true;
+  if (fold(row.name).includes(needle)) return true;
+  return dateHaystack(row.createdAt).includes(needle);
+}
 
 type Row = {
   id: string;
@@ -26,6 +74,8 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [rows, setRows] = useState<Row[]>([]);
+  const [query, setQuery] = useState("");
+  const filtered = useMemo(() => rows.filter((row) => matchesQuery(row, query)), [rows, query]);
 
   async function load() {
     const response = await fetch("/api/admin/results");
@@ -65,6 +115,7 @@ export default function AdminPage() {
     await fetch("/api/admin/login", { method: "DELETE" });
     setAuthed(false);
     setRows([]);
+    setQuery("");
   }
 
   if (loading) {
@@ -109,7 +160,11 @@ export default function AdminPage() {
         <div>
           <p className="text-xs uppercase tracking-[0.28em] text-[var(--gold)]">Painel</p>
           <h1 className="font-display mt-2 text-4xl">Testes</h1>
-          <p className="mt-2 text-sm text-[var(--muted)]">{rows.length} resultado{rows.length === 1 ? "" : "s"}</p>
+          <p className="mt-2 text-sm text-[var(--muted)]">
+            {query.trim()
+              ? `${filtered.length} de ${rows.length} resultado${rows.length === 1 ? "" : "s"}`
+              : `${rows.length} resultado${rows.length === 1 ? "" : "s"}`}
+          </p>
         </div>
         <button onClick={logout} className="text-sm text-[var(--muted)] hover:text-white">
           Sair
@@ -119,8 +174,39 @@ export default function AdminPage() {
       {rows.length === 0 ? (
         <p className="mt-10 text-[var(--muted)]">Ainda não há testes gravados. Quando alguém terminar o mapa, aparece aqui.</p>
       ) : (
-        <div className="mt-8 space-y-3">
-          {rows.map((row) => (
+        <>
+          <section className="mt-8 rounded-3xl border border-[var(--line)] bg-[var(--paper)] p-5">
+            <p className="text-[11px] uppercase tracking-[0.28em] text-[var(--gold)]">Pesquisa</p>
+            <label className="mt-3 block">
+              <span className="sr-only">Buscar por nome ou data</span>
+              <input
+                type="search"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="Digite o nome ou a data, por exemplo Maria ou 29/09/2026"
+                className="w-full rounded-2xl border border-[var(--line)] bg-black/30 px-4 py-3 text-base outline-none ring-[var(--gold)] placeholder:text-white/35 focus:ring-2"
+              />
+            </label>
+            {query.trim() ? (
+              <button
+                type="button"
+                onClick={() => setQuery("")}
+                className="mt-3 text-sm text-[var(--muted)] hover:text-white"
+              >
+                Limpar pesquisa
+              </button>
+            ) : (
+              <p className="mt-3 text-sm text-[var(--muted)]">
+                Encontre um teste pelo nome da pessoa ou pela data em que o mapa foi feito.
+              </p>
+            )}
+          </section>
+
+          {filtered.length === 0 ? (
+            <p className="mt-8 text-[var(--muted)]">Nenhum teste encontrado para “{query.trim()}”.</p>
+          ) : (
+        <div className="mt-6 space-y-3">
+          {filtered.map((row) => (
             <article key={row.id} className="rounded-3xl border border-[var(--line)] bg-[var(--paper)] p-5">
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
@@ -168,6 +254,8 @@ export default function AdminPage() {
             </article>
           ))}
         </div>
+          )}
+        </>
       )}
     </main>
   );
