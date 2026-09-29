@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { ANALYSES, DISCLAIMER, getCombo } from "@/lib/analysis";
 import { PROFILES } from "@/lib/profiles";
-import { interpret } from "@/lib/score";
+import { interpret, rankedByPercent } from "@/lib/score";
 import type { Quadrant } from "@/lib/types";
 import type { ComboAnalysis, ProfileAnalysis, StrengthItem } from "@/lib/analysis/types";
 
@@ -72,24 +72,24 @@ export function ResultReport({
           {labelOf(secondary.id)}, modula o primeiro.
         </p>
         <div className="mt-6 space-y-4">
-          {result.ranked.map((row) => {
-            const meta = PROFILES[row.key];
+          {rankedByPercent(result.percents, result.scores).map((key) => {
+            const meta = PROFILES[key];
             return (
-              <div key={row.key}>
+              <div key={key}>
                 <div className="mb-1.5 flex items-center justify-between text-sm">
                   <span>
                     {meta.animal} · {meta.title}
-                    {row.key === profile.id ? " · predominante" : row.key === secondary.id ? " · segundo traço" : ""}
+                    {key === profile.id ? " · predominante" : key === secondary.id ? " · segundo traço" : ""}
                   </span>
                   <span className="tabular-nums text-[var(--muted)]">
-                    {row.value} · {result.percents[row.key]}%
+                    {result.scores[key]} · {result.percents[key]}%
                   </span>
                 </div>
                 <div className="h-2.5 overflow-hidden rounded-full bg-white/10">
                   <div
                     className="h-full rounded-full"
                     style={{
-                      width: `${result.percents[row.key]}%`,
+                      width: `${result.percents[key]}%`,
                       background: meta.color,
                       animation: "fillbar 0.9s ease both",
                     }}

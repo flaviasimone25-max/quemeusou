@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { brazilianPhone } from "@/lib/phone";
+import { PROFILES } from "@/lib/profiles";
+import { rankedByPercent } from "@/lib/score";
+import type { Scores } from "@/lib/types";
 
 type Row = {
   id: string;
@@ -12,7 +15,7 @@ type Row = {
   primary: string;
   title: string;
   animal: string;
-  percents: { SE: number; IE: number; SD: number; ID: number };
+  percents: Scores;
   paid: boolean;
   email: string;
 };
@@ -131,7 +134,9 @@ export default function AdminPage() {
                     {row.email ? ` · ${row.email}` : ""}
                   </p>
                   <p className="mt-2 text-xs text-[var(--muted)]">
-                    SE {row.percents.SE}% · IE {row.percents.IE}% · SD {row.percents.SD}% · ID {row.percents.ID}%
+                    {rankedByPercent(row.percents)
+                      .map((key) => `${PROFILES[key].animal} ${row.percents[key]}%`)
+                      .join(" · ")}
                   </p>
                 </div>
                 <span

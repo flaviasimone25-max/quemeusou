@@ -2,6 +2,7 @@ import { Resend } from "resend";
 import { OFFER_HOST, OFFER_NAME, OFFER_PRICE, WHATSAPP_URL } from "./offer";
 import type { SavedResult } from "./savedResult";
 import { PROFILES } from "./profiles";
+import { rankedByPercent } from "./score";
 
 function client() {
   const key = process.env.RESEND_API_KEY;
@@ -95,7 +96,9 @@ function hostHtml(result: SavedResult, email: string, title: string) {
       <li><strong>WhatsApp:</strong> ${escapeHtml(result.whatsapp)}</li>
       <li><strong>Profissão:</strong> ${escapeHtml(result.profession)}</li>
       <li><strong>E-mail:</strong> ${escapeHtml(email)}</li>
-      <li><strong>Mapa:</strong> SE ${result.percents.SE}% · IE ${result.percents.IE}% · SD ${result.percents.SD}% · ID ${result.percents.ID}%</li>
+      <li><strong>Mapa:</strong> ${rankedByPercent(result.percents, result.scores)
+        .map((key) => `${PROFILES[key].animal} ${result.percents[key]}%`)
+        .join(" · ")}</li>
     </ul>
     <p>O PDF completo foi enviado ao cliente e segue em anexo. Chame no WhatsApp para agendar a 1 hora.</p>
   </div>`;

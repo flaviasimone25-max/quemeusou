@@ -3,6 +3,7 @@ import path from "node:path";
 import { ANALYSES, DISCLAIMER, getCombo } from "./analysis";
 import { PROFILES, QUADRANT_META } from "./profiles";
 import { OFFER_HOST, OFFER_NAME } from "./offer";
+import { rankedByPercent } from "./score";
 import type { SavedResult } from "./savedResult";
 import type { Quadrant } from "./types";
 
@@ -76,6 +77,7 @@ export function ReportDocument({ result }: { result: SavedResult }) {
   const analysis = ANALYSES[result.primary];
   const combo = getCombo(result.primary, result.secondary);
   const order: Quadrant[] = ["SE", "IE", "SD", "ID"];
+  const mapOrder = rankedByPercent(result.percents, result.scores);
 
   return (
     <Document
@@ -117,7 +119,7 @@ export function ReportDocument({ result }: { result: SavedResult }) {
         </View>
 
         <Text style={styles.h2}>Seu mapa</Text>
-        {order.map((key) => {
+        {mapOrder.map((key) => {
           const meta = QUADRANT_META[key];
           const animal = PROFILES[key];
           const percent = result.percents[key];

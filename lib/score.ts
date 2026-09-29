@@ -28,6 +28,12 @@ export function rankedQuadrants(scores: Scores): { key: Quadrant; value: number 
     .sort((a, b) => b.value - a.value || a.key.localeCompare(b.key));
 }
 
+export function rankedByPercent(percents: Scores, scores: Scores = percents): Quadrant[] {
+  return (Object.keys(percents) as Quadrant[]).sort(
+    (a, b) => percents[b] - percents[a] || scores[b] - scores[a] || a.localeCompare(b),
+  );
+}
+
 export function interpret(scores: Scores) {
   const ranked = rankedQuadrants(scores);
   const primary = ranked[0];
